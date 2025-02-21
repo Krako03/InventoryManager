@@ -59,5 +59,8 @@ public class Purchase {
     public String getProvider() { return provider; }
     public void setProvider(String provider) { this.provider = provider; }
 
+    public String toString() {
+        return "Purchase{id='" + id + "', invoice=" + invoice + ", hasAppleCare=" + hasAppleCare + ", appleCareInvoice='" + appleCareInvoice + "', comments='" + comments + "', location='" + location + "', priceMx=" + priceMx + ", priceUsa=" + priceUsa + ", deliveryStatus=" + deliveryStatus + ", provider='" + provider + "'}";
+    }
 
 }

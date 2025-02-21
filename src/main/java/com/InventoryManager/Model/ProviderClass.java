@@ -1,19 +1,20 @@
 package com.InventoryManager.Model;
 
-public class Provider {
+public class ProviderClass
+{
     private int id;
     private String name;
     private String contactInfo;
     private String comments;
 
-    public Provider(int id, String name, String contactInfo, String comments) {
+    public ProviderClass(int id, String name, String contactInfo, String comments) {
         this.id = id;
         this.name = name;
         this.contactInfo = contactInfo;
         this.comments = comments;
     }
 
-    // Getters and setters
+
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
 
