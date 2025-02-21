@@ -14,7 +14,7 @@ public class PurchaseManagement {
     }
 
     public void createPurchase(Purchase purchase){
-        if(!dataBaseManagement.exists("purchase",purchase.getId())){
+        if(dataBaseManagement.notExists("purchase", purchase.getId())){
             dataBaseManagement.saveData("purchase", List.of(purchase.toString()));
         }else{
             System.out.println("Error. ID already in the db");

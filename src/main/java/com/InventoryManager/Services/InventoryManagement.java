@@ -2,7 +2,6 @@ package com.InventoryManager.Services;
 
 import com.InventoryManager.Database.DataBaseManagement;
 import com.InventoryManager.Model.Product;
-import com.InventoryManager.Model.ProviderClass;
 
 import java.util.List;
 
@@ -14,7 +13,7 @@ public class InventoryManagement {
     }
 
     public void createProduct(Product product){
-        if(!dataBaseManagement.exists("product",product.getId())){
+        if(dataBaseManagement.notExists("product", product.getId())){
             dataBaseManagement.saveData("product", List.of(product.toString()));
         }else{
             System.out.println("Error: ID already defined in the db");
