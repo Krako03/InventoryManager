@@ -21,7 +21,8 @@ public class DataBaseManagement {
     }
 
     public void saveData(String key, List<String> values){
-        dataStorage.put(key,new ArrayList<>(values));
+        dataStorage.putIfAbsent(key, new ArrayList<>());
+        dataStorage.get(key).addAll(values);
     }
 
     public List<String> getData(String key){
@@ -30,6 +31,19 @@ public class DataBaseManagement {
 
     public boolean executeQuery(String key){
         return dataStorage.containsKey(key);
+    }
+
+    public void printAllData() {
+        System.out.println("Contenido de la base de datos:");
+        dataStorage.forEach((key, value) -> {
+            System.out.println(key + " -> " + value);
+        });
+    }
+
+    public boolean exists(String key, String id) {
+        return dataStorage.getOrDefault(key, Collections.emptyList())
+                .stream()
+                .anyMatch(entry -> entry.contains("id='" + id + "'"));
     }
 
 }
