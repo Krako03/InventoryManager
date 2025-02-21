@@ -41,6 +41,13 @@ public class Main {
         purchaseManagement.createPurchase(purchase1);
         purchaseManagement.createPurchase(purchase2);
 
+        purchaseManagement.deletePurchase("P001");
+        purchaseManagement.deletePurchase("P002");
+        purchaseManagement.deleteProvider("2");
+        purchaseManagement.deleteProvider("1");
+        inventoryManagement.deleteProduct("PRD001");
+
+
         db.printAllData();
     }
 }

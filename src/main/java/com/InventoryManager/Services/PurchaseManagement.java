@@ -13,8 +13,8 @@ public class PurchaseManagement {
         this.dataBaseManagement = dataBaseManagement;
     }
 
-    public void createPurchase(Purchase purchase){
-        if(dataBaseManagement.notExists("purchase", purchase.getId())){
+    public void createPurchase(Purchase purchase) {
+        if(dataBaseManagement.notExists("purchase", purchase.getId())) {
             dataBaseManagement.saveData("purchase", List.of(purchase.toString()));
         }else{
             System.out.println("Error. ID already in the db");
@@ -22,7 +22,7 @@ public class PurchaseManagement {
 
     }
 
-    public void editPurchase(String id, Purchase newPurchase){
+    public void editPurchase(String id, Purchase newPurchase) {
         List<String> purchases =dataBaseManagement.getData("purchase");
         for (int i = 0; i < purchases.size(); i++) {
             if (purchases.get(i).contains("id='" + id + "'")) {
@@ -32,19 +32,17 @@ public class PurchaseManagement {
         }
     }
 
-
-
-    public void deletePurchase(String id){
-        List<String> purchases=dataBaseManagement.getData("purchases");
+    public void deletePurchase(String id) {
+        List<String> purchases=dataBaseManagement.getData("purchase");
         purchases.removeIf(purchase->purchase.contains(id));
         dataBaseManagement.saveData("purchase",purchases);
     }
 
-    public void addProvider(ProviderClass provider){
+    public void addProvider(ProviderClass provider) {
         dataBaseManagement.saveData("provider", List.of(provider.toString()));
     }
 
-    public void editProvider(String id, ProviderClass newProvider){
+    public void editProvider(String id, ProviderClass newProvider) {
         List<String> providers =dataBaseManagement.getData("provider");
         for (int i = 0; i < providers.size(); i++) {
             if (providers.get(i).contains("id=" + id + "")) {
@@ -54,7 +52,7 @@ public class PurchaseManagement {
         }
     }
 
-    public void deleteProvider(String id){
+    public void deleteProvider(String id) {
         List<String> providers=dataBaseManagement.getData("provider");
         providers.removeIf(provider->provider.contains(id));
         dataBaseManagement.saveData("provider",providers);
