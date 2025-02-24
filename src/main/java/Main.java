@@ -5,52 +5,327 @@ import com.InventoryManager.Model.Purchase;
 import com.InventoryManager.Services.InventoryManagement;
 import com.InventoryManager.Services.PurchaseManagement;
 
+import java.util.*;
 import java.io.File;
 
 public class Main {
     public static void main(String[] args) {
-        // Inicia db
-        DataBaseManagement db = new DataBaseManagement();
+        DataBaseManagement dataBaseManagement = new DataBaseManagement();
+        Scanner scanner = new Scanner(System.in);
 
-        // Iniciar servicios
-        PurchaseManagement purchaseManagement = new PurchaseManagement(db);
-        InventoryManagement inventoryManagement = new InventoryManagement(db);
+        // Login
+        System.out.println("Welcome to the Inventory Management System!");
+        System.out.print("Enter username: ");
+        String username = scanner.nextLine();
+        System.out.print("Enter password: ");
+        String password = scanner.nextLine();
 
-        // Crear proveedores
-        ProviderClass provider1 = new ProviderClass(1, "Apple", "apple@support.com", "Proveedor oficial");
-        purchaseManagement.addProvider(provider1);
+        //Login login = new Login(dataBaseManagement, username, password);
+        //if (login.tryLogin()) {
+        if (true){
+            System.out.println("Login successful!");
 
-        ProviderClass provider2 = new ProviderClass(1, "Apple2", "apple@support.com2", "Proveedor oficial2");
-        purchaseManagement.editProvider("1",provider2);
+            // Main Menu
+            boolean isRunning = true;
+            while (isRunning) {
+                System.out.println("\nMain Menu:");
+                System.out.println("1. Manage Products");
+                System.out.println("2. Manage Providers");
+                System.out.println("3. Manage Purchases");
+                System.out.println("4. Export Products to Excel");
+                System.out.println("5. Import Products from Excel");
+                System.out.println("6. Print All Data");
+                System.out.println("7. Log out");
+                System.out.print("Choose an option: ");
+                int choice = scanner.nextInt();
+                scanner.nextLine();  // Consume newline
 
-        //ProviderClass providerNew = new ProviderClass(1, "Sangub", "saungu@support.com", "Proveedor sanfun");
-        //purchaseManagement.editProvider("1", providerNew);
+                switch (choice) {
+                    case 1:
+                        manageProducts(scanner, dataBaseManagement);
+                        break;
+                    case 2:
+                        manageProviders(scanner, dataBaseManagement);
+                        break;
+                    case 3:
+                        managePurchases(scanner, dataBaseManagement);
+                        break;
+                    case 4:
+                        exportProductsToExcel(scanner, dataBaseManagement);
+                        break;
+                    case 5:
+                        importProductsFromExcel(scanner, dataBaseManagement);
+                        break;
+                    case 6:
+                        dataBaseManagement.printAllData();
+                        break;
+                    case 7:
+                        System.out.println("Logging out...");
+                        isRunning = false;
+                        break;
+                    default:
+                        System.out.println("Invalid option. Try again.");
+                }
+            }
+        } else {
+            System.out.println("Invalid username or password. Exiting...");
+        }
+    }
 
-        //Crea product
-        Product product1 = new Product("1", "MacBook Pro", "Apple", "SN12345", "Juan Pérez", "Oficina 1", "En uso", "Buen estado");
-        inventoryManagement.createProduct(product1);
+    private static void manageProducts(Scanner scanner, DataBaseManagement dataBaseManagement) {
+        InventoryManagement inventoryManagement = new InventoryManagement(dataBaseManagement);
 
-        Product product2 = new Product("1", "MacBook Pro2", "Apple2", "SN123452", "Juan Pérez", "Oficina 1", "En uso", "Buen estado");
-        inventoryManagement.editProduct("1",product2);
+        boolean isProductMenuRunning = true;
+        while (isProductMenuRunning) {
+            System.out.println("\nManage Products Menu:");
+            System.out.println("1. Create Product");
+            System.out.println("2. Edit Product");
+            System.out.println("3. Delete Product");
+            System.out.println("4. Back to Main Menu");
+            System.out.print("Choose an option: ");
+            int choice = scanner.nextInt();
+            scanner.nextLine();
+
+            switch (choice) {
+                case 1:
+                    createProduct(scanner, inventoryManagement);
+                    break;
+                case 2:
+                    editProduct(scanner, inventoryManagement);
+                    break;
+                case 3:
+                    deleteProduct(scanner, inventoryManagement);
+                    break;
+                case 4:
+                    isProductMenuRunning = false;
+                    break;
+                default:
+                    System.out.println("Invalid option. Try again.");
+            }
+        }
+    }
+
+    private static void createProduct(Scanner scanner, InventoryManagement inventoryManagement) {
+        System.out.print("Enter Product ID: ");
+        String id = scanner.nextLine();
+        System.out.print("Enter Product Name: ");
+        String name = scanner.nextLine();
+        System.out.print("Enter Product Brand: ");
+        String brand = scanner.nextLine();
+        System.out.print("Enter Product Serial Number: ");
+        String serialNumber = scanner.nextLine();
+        System.out.print("Enter Assignment Name: ");
+        String assigmentName = scanner.nextLine();
+        System.out.print("Enter Location: ");
+        String location = scanner.nextLine();
+        System.out.print("Enter Status: ");
+        String status = scanner.nextLine();
+        System.out.print("Enter Comments: ");
+        String comments = scanner.nextLine();
+
+        Product product = new Product(id, name, brand, serialNumber, assigmentName, location, status, comments);
+        inventoryManagement.createProduct(product);
+    }
+
+    private static void editProduct(Scanner scanner, InventoryManagement inventoryManagement) {
+        System.out.print("Enter Product ID to edit: ");
+        String id = scanner.nextLine();
+        System.out.print("Enter New Product Name: ");
+        String name = scanner.nextLine();
+        System.out.print("Enter New Product Brand: ");
+        String brand = scanner.nextLine();
+        System.out.print("Enter New Product Serial Number: ");
+        String serialNumber = scanner.nextLine();
+        System.out.print("Enter New Assignment Name: ");
+        String assigmentName = scanner.nextLine();
+        System.out.print("Enter New Location: ");
+        String location = scanner.nextLine();
+        System.out.print("Enter New Status: ");
+        String status = scanner.nextLine();
+        System.out.print("Enter New Comments: ");
+        String comments = scanner.nextLine();
+
+        Product product = new Product(id, name, brand, serialNumber, assigmentName, location, status, comments);
+        inventoryManagement.editProduct(id, product);
+    }
+
+    private static void deleteProduct(Scanner scanner, InventoryManagement inventoryManagement) {
+        System.out.print("Enter Product ID to delete: ");
+        String id = scanner.nextLine();
+        inventoryManagement.deleteProduct(id);
+    }
+
+    private static void manageProviders(Scanner scanner, DataBaseManagement dataBaseManagement) {
+        PurchaseManagement purchaseManagement = new PurchaseManagement(dataBaseManagement);
+
+        boolean isProviderMenuRunning = true;
+        while (isProviderMenuRunning) {
+            System.out.println("\nManage Providers Menu:");
+            System.out.println("1. Add Provider");
+            System.out.println("2. Edit Provider");
+            System.out.println("3. Delete Provider");
+            System.out.println("4. Back to Main Menu");
+            System.out.print("Choose an option: ");
+            int choice = scanner.nextInt();
+            scanner.nextLine();  // Consume newline
+
+            switch (choice) {
+                case 1:
+                    addProvider(scanner, purchaseManagement);
+                    break;
+                case 2:
+                    editProvider(scanner, purchaseManagement);
+                    break;
+                case 3:
+                    deleteProvider(scanner, purchaseManagement);
+                    break;
+                case 4:
+                    isProviderMenuRunning = false;
+                    break;
+                default:
+                    System.out.println("Invalid option. Try again.");
+            }
+        }
+    }
+
+    private static void addProvider(Scanner scanner, PurchaseManagement purchaseManagement) {
+        System.out.print("Enter Provider ID: ");
+        int id = scanner.nextInt();
+        scanner.nextLine();  // Consume newline
+        System.out.print("Enter Provider Name: ");
+        String name = scanner.nextLine();
+        System.out.print("Enter Provider Contact Info: ");
+        String contactInfo = scanner.nextLine();
+        System.out.print("Enter Provider Comments: ");
+        String comments = scanner.nextLine();
+
+        ProviderClass provider = new ProviderClass(id, name, contactInfo, comments);
+        purchaseManagement.addProvider(provider);
+    }
+
+    private static void editProvider(Scanner scanner, PurchaseManagement purchaseManagement) {
+        System.out.print("Enter Provider ID to edit: ");
+        int id = scanner.nextInt();
+        scanner.nextLine();  // Consume newline
+        System.out.print("Enter New Provider Name: ");
+        String name = scanner.nextLine();
+        System.out.print("Enter New Provider Contact Info: ");
+        String contactInfo = scanner.nextLine();
+        System.out.print("Enter New Provider Comments: ");
+        String comments = scanner.nextLine();
+
+        ProviderClass provider = new ProviderClass(id, name, contactInfo, comments);
+        purchaseManagement.editProvider(String.valueOf(id), provider);
+    }
+
+    private static void deleteProvider(Scanner scanner, PurchaseManagement purchaseManagement) {
+        System.out.print("Enter Provider ID to delete: ");
+        int id = scanner.nextInt();
+        scanner.nextLine();  // Consume newline
+        purchaseManagement.deleteProvider(String.valueOf(id));
+    }
+
+    private static void managePurchases(Scanner scanner, DataBaseManagement dataBaseManagement) {
+        PurchaseManagement purchaseManagement = new PurchaseManagement(dataBaseManagement);
+
+        boolean isPurchaseMenuRunning = true;
+        while (isPurchaseMenuRunning) {
+            System.out.println("\nManage Purchases Menu:");
+            System.out.println("1. Create Purchase");
+            System.out.println("2. Edit Purchase");
+            System.out.println("3. Delete Purchase");
+            System.out.println("4. Back to Main Menu");
+            System.out.print("Choose an option: ");
+            int choice = scanner.nextInt();
+            scanner.nextLine();  // Consume newline
+
+            switch (choice) {
+                case 1:
+                    createPurchase(scanner, purchaseManagement);
+                    break;
+                case 2:
+                    editPurchase(scanner, purchaseManagement);
+                    break;
+                case 3:
+                    deletePurchase(scanner, purchaseManagement);
+                    break;
+                case 4:
+                    isPurchaseMenuRunning = false;
+                    break;
+                default:
+                    System.out.println("Invalid option. Try again.");
+            }
+        }
+    }
+
+    private static void createPurchase(Scanner scanner, PurchaseManagement purchaseManagement) {
+        System.out.print("Enter Purchase ID: ");
+        String id = scanner.nextLine();
+        System.out.print("Enter Provider ID: ");
+        String provider = scanner.nextLine();
+        System.out.print("Does the purchase have AppleCare? (true/false): ");
+        boolean hasAppleCare = scanner.nextBoolean();
+        scanner.nextLine();  // Consume newline
+        System.out.print("Enter AppleCare Invoice Number (if applicable): ");
+        String appleCareInvoice = scanner.nextLine();
+        System.out.print("Enter Comments: ");
+        String comments = scanner.nextLine();
+        System.out.print("Enter Location: ");
+        String location = scanner.nextLine();
+        System.out.print("Enter Price (MX): ");
+        Double priceMx = scanner.nextDouble();
+        System.out.print("Enter Price (USA): ");
+        Double priceUsa = scanner.nextDouble();
+        System.out.print("Enter Delivery Status (true/false): ");
+        Boolean deliveryStatus = scanner.nextBoolean();
+
+        // Placeholder for the invoice file (this could be improved to handle actual file uploads)
+        File invoice = new File("path_to_invoice_file");
+
+        Purchase purchase = new Purchase(id, invoice, hasAppleCare, appleCareInvoice, comments, location, priceMx, priceUsa, deliveryStatus, provider);
+        purchaseManagement.createPurchase(purchase);
+    }
+
+    private static void editPurchase(Scanner scanner, PurchaseManagement purchaseManagement) {
+        System.out.print("Enter Purchase ID to edit: ");
+        String id = scanner.nextLine();
+        System.out.print("Enter New Provider ID: ");
+        String provider = scanner.nextLine();
+        System.out.print("Does the purchase have AppleCare? (true/false): ");
+        boolean hasAppleCare = scanner.nextBoolean();
+        scanner.nextLine();  // Consume newline
+        System.out.print("Enter New AppleCare Invoice Number (if applicable): ");
+        String appleCareInvoice = scanner.nextLine();
+        System.out.print("Enter New Comments: ");
+        String comments = scanner.nextLine();
+        System.out.print("Enter New Location: ");
+        String location = scanner.nextLine();
+        System.out.print("Enter New Price (MX): ");
+        Double priceMx = scanner.nextDouble();
+        System.out.print("Enter New Price (USA): ");
+        Double priceUsa = scanner.nextDouble();
+        System.out.print("Enter New Delivery Status (true/false): ");
+        Boolean deliveryStatus = scanner.nextBoolean();
+
+        // Placeholder for the invoice file (this could be improved to handle actual file uploads)
+        File invoice = new File("path_to_invoice_file");
+
+        Purchase purchase = new Purchase(id, invoice, hasAppleCare, appleCareInvoice, comments, location, priceMx, priceUsa, deliveryStatus, provider);
+        purchaseManagement.editPurchase(id, purchase);
+    }
+
+    private static void deletePurchase(Scanner scanner, PurchaseManagement purchaseManagement) {
+        System.out.print("Enter Purchase ID to delete: ");
+        String id = scanner.nextLine();
+        purchaseManagement.deletePurchase(id);
+    }
 
 
-        // Crear una compra
-        Purchase purchase1 = new Purchase("P001", new File("invoice1.pdf"), true, "applecare1.pdf", "Compra de prueba", "Almacén A", 25000d, 1200d, true, "Apple");
-        Purchase purchase2 = new Purchase("P001", new File("invoice2.pdf"), true, "applecare2.pdf", "Compra de prueba2", "Almacén A2", 25000d, 1200d, true, "Apple");
-        purchaseManagement.createPurchase(purchase1);
-        System.out.println(product2.toString());
 
-        purchaseManagement.editPurchase("P001",purchase2);
+    private static void exportProductsToExcel(Scanner scanner, DataBaseManagement dataBaseManagement) {
+    }
 
-        //purchaseManagement.createPurchase(purchase2);
+    private static void importProductsFromExcel(Scanner scanner, DataBaseManagement dataBaseManagement) {
 
-        //purchaseManagement.deletePurchase("P001");
-        //purchaseManagement.deletePurchase("P002");
-        //purchaseManagement.deleteProvider("2");
-        //purchaseManagement.deleteProvider("1");
-        //inventoryManagement.deleteProduct("PRD001");
-
-
-        db.printAllData();
     }
 }

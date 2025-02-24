@@ -1,5 +1,6 @@
 package com.InventoryManager.Database;
 
+import com.InventoryManager.Model.Product;
 import lombok.Setter;
 
 import java.util.ArrayList;
@@ -67,5 +68,6 @@ public class DataBaseManagement {
                 .stream()
                 .noneMatch(entry -> entry.contains("id='" + id + "'"));
     }
+
 
 }
