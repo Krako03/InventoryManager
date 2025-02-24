@@ -6,7 +6,7 @@ import com.InventoryManager.Model.Product;
 import java.util.List;
 
 public class InventoryManagement {
-    private DataBaseManagement dataBaseManagement;
+    private final DataBaseManagement dataBaseManagement;
 
     public InventoryManagement(DataBaseManagement dataBaseManagement){
         this.dataBaseManagement=dataBaseManagement;

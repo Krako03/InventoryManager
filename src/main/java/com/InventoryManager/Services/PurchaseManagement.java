@@ -7,7 +7,7 @@ import com.InventoryManager.Model.Purchase;
 import java.util.List;
 
 public class PurchaseManagement {
-    private DataBaseManagement dataBaseManagement;
+    private final DataBaseManagement dataBaseManagement;
 
     public PurchaseManagement(DataBaseManagement dataBaseManagement) {
         this.dataBaseManagement = dataBaseManagement;
@@ -47,7 +47,7 @@ public class PurchaseManagement {
     public void editProvider(String id, ProviderClass newProvider){
         List<String> providers =dataBaseManagement.getData("provider");
         for (int i = 0; i < providers.size(); i++) {
-            if (providers.get(i).contains("id=" + id + "")) {
+            if (providers.get(i).contains("id=" + id)) {
                 providers.set(i, newProvider.toString());
                 break;
             }
