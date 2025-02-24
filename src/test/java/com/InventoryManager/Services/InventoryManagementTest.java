@@ -1,40 +1,65 @@
 package com.InventoryManager.Services;
 
 import com.InventoryManager.Database.DataBaseManagement;
-import com.InventoryManager.Model.ProviderClass;
-import com.InventoryManager.Model.Purchase;
-import com.InventoryManager.Services.PurchaseManagement;
+import com.InventoryManager.Model.Product;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.*;
 
-
-import java.io.File;
 import java.util.List;
 
-class PurchaseManagementTest {
+public class InventoryManagementTest {
+
     private DataBaseManagement db;
-    private PurchaseManagement purchaseManagement;
+    private InventoryManagement inventoryManagement;
 
     @BeforeEach
-    void setup() {
-        db = mock(DataBaseManagement.class);
-        purchaseManagement = new PurchaseManagement(db);
+    public void setUp() {
+        db = new DataBaseManagement();
+        inventoryManagement = new InventoryManagement(db);
     }
-
-
-
-
 
     @Test
-    void whenAddProvider_thenSaveDataCalled() {
-        ProviderClass provider = new ProviderClass(1, "Apple", "apple@support.com", "Proveedor oficial");
+    public void testCreateProduct() {
+        Product product = new Product("1", "MacBook Pro", "Apple", "SN12345", "Juan Pérez", "Oficina 1", "En uso", "Buen estado");
+        inventoryManagement.createProduct(product);
 
-        purchaseManagement.addProvider(provider);
-
-        verify(db).saveData("provider", List.of(provider.toString()));
+        List<String> products = db.getData("product");
+        assertFalse(products.isEmpty());
+        assertTrue(products.get(0).contains("id=1"));
     }
 
+    @Test
+    public void testEditProduct() {
+        Product product1 = new Product("1", "MacBook Pro", "Apple", "SN12345", "Juan Pérez", "Oficina 1", "En uso", "Buen estado");
+        inventoryManagement.createProduct(product1);
 
+        Product product2 = new Product("1", "MacBook Pro Updated", "Apple", "SN12345", "Juan Pérez", "Oficina 2", "En uso", "Excelente estado");
+        inventoryManagement.editProduct("1", product2);
+
+        List<String> products = db.getData("product");
+        assertTrue(products.get(0).contains("MacBook Pro Updated"));
+    }
+
+    @Test
+    public void testDeleteProduct() {
+        Product product = new Product("1", "MacBook Pro", "Apple", "SN12345", "Juan Pérez", "Oficina 1", "En uso", "Buen estado");
+        inventoryManagement.createProduct(product);
+
+        inventoryManagement.deleteProduct("1");
+
+        List<String> products = db.getData("product");
+        assertTrue(products.isEmpty());
+    }
+
+    @Test
+    public void testGetProducts() {
+        Product product1 = new Product("1", "MacBook Pro", "Apple", "SN12345", "Juan Pérez", "Oficina 1", "En uso", "Buen estado");
+        Product product2 = new Product("2", "MacBook Air", "Apple", "SN12346", "Maria Gómez", "Oficina 2", "En uso", "Buen estado");
+        inventoryManagement.createProduct(product1);
+        inventoryManagement.createProduct(product2);
+
+        List<String> products = db.getData("product");
+        assertEquals(2, products.size());
+    }
 }

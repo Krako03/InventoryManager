@@ -21,15 +21,17 @@ public class InventoryManagement {
     }
 
     public void editProduct(String id, Product newProduct) {
-        List<String> products =  dataBaseManagement.getData("product");
+        List<String> products = dataBaseManagement.getData("product");
         for (int i = 0; i < products.size(); i++) {
-            if (products.get(i).contains("id='" + id + "'")) {
+            if (products.get(i).contains("id=" + id + "")) {
+                System.out.println("!!!!!");
                 products.set(i, newProduct.toString());
                 break;
             }
         }
+        dataBaseManagement.saveData("product", products);
     }
-
+    
     public void deleteProduct(String id) {
         List<String> products  = dataBaseManagement.getData("product");
         products.removeIf(product->product.contains(id));

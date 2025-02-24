@@ -15,10 +15,39 @@ public class DataBaseManagement {
     private String password;
     private final Map<String, List<String>> dataStorage = new HashMap<>();
 
-    public void saveData(String key, List<String> values){
+    public void saveData(String key, List<String> values) {
         dataStorage.putIfAbsent(key, new ArrayList<>());
-        dataStorage.get(key).addAll(values);
+        List<String> storedValues = dataStorage.get(key);
+
+        for (String newValue : values) {
+            String newId = extractId(newValue);
+            boolean exists = false;
+
+            // Revisar si el ID ya está en la lista
+            for (int i = 0; i < storedValues.size(); i++) {
+                String storedValue = storedValues.get(i);
+                String storedId = extractId(storedValue);
+                if (newId.equals(storedId)) {
+                    storedValues.set(i, newValue); // Sobrescribir el valor si ya existe el ID
+                    exists = true;
+                    break;
+                }
+            }
+
+            // Si el ID no existe, agregar el nuevo valor
+            if (!exists) {
+                storedValues.add(newValue);
+            }
+        }
     }
+
+
+    private String extractId(String data) {
+        int startIndex = data.indexOf("id=") + 3;
+        int endIndex = data.indexOf(",", startIndex);
+        return endIndex == -1 ? data.substring(startIndex) : data.substring(startIndex, endIndex);
+    }
+
 
     public List<String> getData(String key){
         return dataStorage.getOrDefault(key, Collections.emptyList());

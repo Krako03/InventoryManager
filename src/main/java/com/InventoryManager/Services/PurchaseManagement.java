@@ -25,11 +25,13 @@ public class PurchaseManagement {
     public void editPurchase(String id, Purchase newPurchase) {
         List<String> purchases =dataBaseManagement.getData("purchase");
         for (int i = 0; i < purchases.size(); i++) {
-            if (purchases.get(i).contains("id='" + id + "'")) {
+            if (purchases.get(i).contains("id=" + id + "")) {
                 purchases.set(i, newPurchase.toString());
                 break;
             }
         }
+        dataBaseManagement.saveData("purchase", purchases);
+
     }
 
     public void deletePurchase(String id) {
@@ -50,6 +52,7 @@ public class PurchaseManagement {
                 break;
             }
         }
+        dataBaseManagement.saveData("provider", providers);
     }
 
     public void deleteProvider(String id) {
