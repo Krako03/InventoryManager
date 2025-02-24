@@ -1,13 +1,10 @@
 package com.InventoryManager.Database;
 
+import com.InventoryManager.Model.User;
 import com.InventoryManager.Model.Product;
 import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Setter
 public class DataBaseManagement {
@@ -15,6 +12,10 @@ public class DataBaseManagement {
     private String username;
     private String password;
     private final Map<String, List<String>> dataStorage = new HashMap<>();
+    private final List<User> users = List.of(
+            new User("saul", "12345678", "Admin"),
+            new User("oscar", "87654321", "Admin"),
+            new User("alex", "qwerty", "ItAdmin"));
 
     public void saveData(String key, List<String> values) {
         dataStorage.putIfAbsent(key, new ArrayList<>());
@@ -59,7 +60,7 @@ public class DataBaseManagement {
     }
 
     public void printAllData() {
-        System.out.println("Contenido de la base de datos:");
+        System.out.println("Contenido de la base de datos: ");
         dataStorage.forEach((key, value) -> System.out.println(key + " -> " + value));
     }
 
@@ -69,5 +70,10 @@ public class DataBaseManagement {
                 .noneMatch(entry -> entry.contains("id='" + id + "'"));
     }
 
-
+    public Optional<User> containsUser(String username, String password) {
+        return users.stream()
+                .filter(user -> user.getUsername().equals(username)
+                        && user.getPassword().equals(password))
+                .findAny();
+    }
 }
