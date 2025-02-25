@@ -25,31 +25,27 @@ public class DataBaseManagement {
             String newId = extractId(newValue);
             boolean exists = false;
 
-            // Revisar si el ID ya está en la lista
             for (int i = 0; i < storedValues.size(); i++) {
                 String storedValue = storedValues.get(i);
                 String storedId = extractId(storedValue);
                 if (newId.equals(storedId)) {
-                    storedValues.set(i, newValue); // Sobrescribir el valor si ya existe el ID
+                    storedValues.set(i, newValue);
                     exists = true;
                     break;
                 }
             }
 
-            // Si el ID no existe, agregar el nuevo valor
             if (!exists) {
                 storedValues.add(newValue);
             }
         }
     }
 
-
     private String extractId(String data) {
         int startIndex = data.indexOf("id=") + 3;
         int endIndex = data.indexOf(",", startIndex);
         return endIndex == -1 ? data.substring(startIndex) : data.substring(startIndex, endIndex);
     }
-
 
     public List<String> getData(String key){
         return dataStorage.getOrDefault(key, Collections.emptyList());
@@ -76,4 +72,49 @@ public class DataBaseManagement {
                         && user.getPassword().equals(password))
                 .findAny();
     }
+
+    public List<Product> getProducts() {
+        List<String> productStrings = dataStorage.getOrDefault("product", Collections.emptyList());
+        List<Product> products = new ArrayList<>();
+
+        for (String productString : productStrings) {
+            Product product = parseProduct(productString);
+            if (product != null) {
+                products.add(product);
+            }
+        }
+        return products;
+    }
+
+
+    private Product parseProduct(String data) {
+        try {
+            data = data.replace("Product(", "").replace(")", "");
+            String[] parts = data.split(", ");
+
+            Map<String, String> values = new HashMap<>();
+
+            for (String part : parts) {
+                String[] keyValue = part.split("=", 2);
+                if (keyValue.length == 2) {
+                    values.put(keyValue[0].trim(), keyValue[1].trim());
+                }
+            }
+
+            return new Product(
+                    values.getOrDefault("id", ""),
+                    values.getOrDefault("name", ""),
+                    values.getOrDefault("brand", ""),
+                    values.getOrDefault("serialNumber", ""),
+                    values.getOrDefault("assigmentName", ""),
+                    values.getOrDefault("location", ""),
+                    values.getOrDefault("status", ""),
+                    values.getOrDefault("comments", "")
+            );
+        } catch (Exception e) {
+            System.out.println("Error parsing product: " + data);
+            return null;
+        }
+    }
+
 }

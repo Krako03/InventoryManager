@@ -4,6 +4,8 @@ import com.InventoryManager.Model.ProviderClass;
 import com.InventoryManager.Model.Purchase;
 import com.InventoryManager.Services.InventoryManagement;
 import com.InventoryManager.Services.PurchaseManagement;
+import com.InventoryManager.Services.SpreadSheetGenerator;
+import com.InventoryManager.Services.SpreadsheetUploader;
 
 import java.util.*;
 import java.io.File;
@@ -323,9 +325,21 @@ public class Main {
 
 
     private static void exportProductsToExcel(Scanner scanner, DataBaseManagement dataBaseManagement) {
+        SpreadSheetGenerator sp =new SpreadSheetGenerator();
+        System.out.println("Write a file name to export");
+        String filepath=scanner.nextLine();
+        System.out.println(dataBaseManagement.getProducts());
+        sp.exportToExcel(dataBaseManagement.getProducts(),filepath+".xlsx");
     }
 
     private static void importProductsFromExcel(Scanner scanner, DataBaseManagement dataBaseManagement) {
+        System.out.println("Write a file name to import");
+        String filepath=scanner.nextLine();
+        SpreadsheetUploader up = new SpreadsheetUploader(filepath);
 
+        List<Product> productList = up.uploadSpreadsheet();
+
+        dataBaseManagement.saveData("product", Collections.singletonList(productList.toString()));
+        System.out.println("Products imported successfully!");
     }
 }

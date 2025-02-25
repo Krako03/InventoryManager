@@ -24,7 +24,6 @@ public class InventoryManagement {
         List<String> products = dataBaseManagement.getData("product");
         for (int i = 0; i < products.size(); i++) {
             if (products.get(i).contains("id=" + id + "")) {
-                System.out.println("!!!!!");
                 products.set(i, newProduct.toString());
                 break;
             }
