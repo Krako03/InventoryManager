@@ -41,4 +41,30 @@ public class InventoryManagement {
         List<String> productStrings = dataBaseManagement.getData("product");
         return null;
     }
+
+    public boolean containsId(String id){
+
+        List<Product> productsObj = dataBaseManagement.getProducts();
+
+        System.out.println(productsObj);
+        for (int i =0;  i<productsObj.size(); i++){
+            if (productsObj.get(i).getId().equals(id)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public Product getProductById(String id){
+        List<Product> productsObj = dataBaseManagement.getProducts();
+
+        System.out.println(productsObj);
+        for (int i =0;  i<productsObj.size(); i++){
+            if (productsObj.get(i).getId().equals(id)){
+                return productsObj.get(i);
+            }
+
+        }
+        return null;
+    }
 }

@@ -3,6 +3,7 @@ import com.InventoryManager.Model.Product;
 import com.InventoryManager.Model.ProviderClass;
 import com.InventoryManager.Model.Purchase;
 import com.InventoryManager.Services.InventoryManagement;
+import com.InventoryManager.Services.Login;
 import com.InventoryManager.Services.PurchaseManagement;
 import com.InventoryManager.Services.SpreadSheetGenerator;
 import com.InventoryManager.Services.SpreadsheetUploader;
@@ -15,19 +16,16 @@ public class Main {
         DataBaseManagement dataBaseManagement = new DataBaseManagement();
         Scanner scanner = new Scanner(System.in);
 
-        // Login
         System.out.println("Welcome to the Inventory Management System!");
         System.out.print("Enter username: ");
         String username = scanner.nextLine();
         System.out.print("Enter password: ");
         String password = scanner.nextLine();
 
-        //Login login = new Login(dataBaseManagement, username, password);
-        //if (login.tryLogin()) {
-        if (true){
+        Login login = new Login(dataBaseManagement, username, password);
+        if (login.tryLogin()) {
             System.out.println("Login successful!");
 
-            // Main Menu
             boolean isRunning = true;
             while (isRunning) {
                 System.out.println("\nMain Menu:");
@@ -40,7 +38,7 @@ public class Main {
                 System.out.println("7. Log out");
                 System.out.print("Choose an option: ");
                 int choice = scanner.nextInt();
-                scanner.nextLine();  // Consume newline
+                scanner.nextLine();
 
                 switch (choice) {
                     case 1:
@@ -132,23 +130,73 @@ public class Main {
     private static void editProduct(Scanner scanner, InventoryManagement inventoryManagement) {
         System.out.print("Enter Product ID to edit: ");
         String id = scanner.nextLine();
-        System.out.print("Enter New Product Name: ");
-        String name = scanner.nextLine();
-        System.out.print("Enter New Product Brand: ");
-        String brand = scanner.nextLine();
-        System.out.print("Enter New Product Serial Number: ");
-        String serialNumber = scanner.nextLine();
-        System.out.print("Enter New Assignment Name: ");
-        String assigmentName = scanner.nextLine();
-        System.out.print("Enter New Location: ");
-        String location = scanner.nextLine();
-        System.out.print("Enter New Status: ");
-        String status = scanner.nextLine();
-        System.out.print("Enter New Comments: ");
-        String comments = scanner.nextLine();
+        if (inventoryManagement.containsId(id)) {
+            Product currentProduct = inventoryManagement.getProductById(id);
+            System.out.println("[1] Name: " + currentProduct.getName());
+            System.out.println("[2] Brand: " + currentProduct.getBrand());
+            System.out.println("[3] Serial Number: " + currentProduct.getSerialNumber());
+            System.out.println("[4] Assignment Name: " + currentProduct.getAssigmentName());
+            System.out.println("[5] Location: " + currentProduct.getLocation());
+            System.out.println("[6] Status: " + currentProduct.getStatus());
+            System.out.println("[7] Comments: " + currentProduct.getComments());
 
-        Product product = new Product(id, name, brand, serialNumber, assigmentName, location, status, comments);
-        inventoryManagement.editProduct(id, product);
+            System.out.print("Enter the number of the field you want to modify (1-7) or 0 to cancel: ");
+            int choice = scanner.nextInt();
+            scanner.nextLine();
+
+            String name = currentProduct.getName();
+            String brand = currentProduct.getBrand();
+            String serialNumber = currentProduct.getSerialNumber();
+            String assigmentName = currentProduct.getAssigmentName();
+            String location = currentProduct.getLocation();
+            String status = currentProduct.getStatus();
+            String comments = currentProduct.getComments();
+
+            // Dependiendo de la elección, se modifica el campo correspondiente
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter New Product Name: ");
+                    name = scanner.nextLine();
+                    break;
+                case 2:
+                    System.out.print("Enter New Product Brand: ");
+                    brand = scanner.nextLine();
+                    break;
+                case 3:
+                    System.out.print("Enter New Product Serial Number: ");
+                    serialNumber = scanner.nextLine();
+                    break;
+                case 4:
+                    System.out.print("Enter New Assignment Name: ");
+                    assigmentName = scanner.nextLine();
+                    break;
+                case 5:
+                    System.out.print("Enter New Location: ");
+                    location = scanner.nextLine();
+                    break;
+                case 6:
+                    System.out.print("Enter New Status: ");
+                    status = scanner.nextLine();
+                    break;
+                case 7:
+                    System.out.print("Enter New Comments: ");
+                    comments = scanner.nextLine();
+                    break;
+                case 0:
+                    System.out.println("No changes made.");
+                    return;
+                default:
+                    System.out.println("Invalid choice.");
+                    return;
+            }
+            Product updatedProduct = new Product(id, name, brand, serialNumber, assigmentName, location, status, comments);
+
+            inventoryManagement.editProduct(id, updatedProduct);
+        }
+        else{
+            System.out.println("Id not found.");
+        }
+
     }
 
     private static void deleteProduct(Scanner scanner, InventoryManagement inventoryManagement) {
@@ -169,7 +217,7 @@ public class Main {
             System.out.println("4. Back to Main Menu");
             System.out.print("Choose an option: ");
             int choice = scanner.nextInt();
-            scanner.nextLine();  // Consume newline
+            scanner.nextLine();
 
             switch (choice) {
                 case 1:
@@ -281,7 +329,6 @@ public class Main {
         System.out.print("Enter Delivery Status (true/false): ");
         Boolean deliveryStatus = scanner.nextBoolean();
 
-        // Placeholder for the invoice file (this could be improved to handle actual file uploads)
         File invoice = new File("path_to_invoice_file");
 
         Purchase purchase = new Purchase(id, invoice, hasAppleCare, appleCareInvoice, comments, location, priceMx, priceUsa, deliveryStatus, provider);
@@ -309,7 +356,6 @@ public class Main {
         System.out.print("Enter New Delivery Status (true/false): ");
         Boolean deliveryStatus = scanner.nextBoolean();
 
-        // Placeholder for the invoice file (this could be improved to handle actual file uploads)
         File invoice = new File("path_to_invoice_file");
 
         Purchase purchase = new Purchase(id, invoice, hasAppleCare, appleCareInvoice, comments, location, priceMx, priceUsa, deliveryStatus, provider);
@@ -321,8 +367,6 @@ public class Main {
         String id = scanner.nextLine();
         purchaseManagement.deletePurchase(id);
     }
-
-
 
     private static void exportProductsToExcel(Scanner scanner, DataBaseManagement dataBaseManagement) {
         SpreadSheetGenerator sp =new SpreadSheetGenerator();
