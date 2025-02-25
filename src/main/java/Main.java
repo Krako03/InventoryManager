@@ -152,7 +152,6 @@ public class Main {
             String status = currentProduct.getStatus();
             String comments = currentProduct.getComments();
 
-            // Dependiendo de la elección, se modifica el campo correspondiente
             switch (choice) {
                 case 1:
                     System.out.print("Enter New Product Name: ");
@@ -241,7 +240,7 @@ public class Main {
     private static void addProvider(Scanner scanner, PurchaseManagement purchaseManagement) {
         System.out.print("Enter Provider ID: ");
         int id = scanner.nextInt();
-        scanner.nextLine();  // Consume newline
+        scanner.nextLine();
         System.out.print("Enter Provider Name: ");
         String name = scanner.nextLine();
         System.out.print("Enter Provider Contact Info: ");
@@ -256,22 +255,58 @@ public class Main {
     private static void editProvider(Scanner scanner, PurchaseManagement purchaseManagement) {
         System.out.print("Enter Provider ID to edit: ");
         int id = scanner.nextInt();
-        scanner.nextLine();  // Consume newline
-        System.out.print("Enter New Provider Name: ");
-        String name = scanner.nextLine();
-        System.out.print("Enter New Provider Contact Info: ");
-        String contactInfo = scanner.nextLine();
-        System.out.print("Enter New Provider Comments: ");
-        String comments = scanner.nextLine();
+        scanner.nextLine();
 
-        ProviderClass provider = new ProviderClass(id, name, contactInfo, comments);
-        purchaseManagement.editProvider(String.valueOf(id), provider);
+        ProviderClass currentProvider = purchaseManagement.getProviderById(String.valueOf(id));
+        if (currentProvider == null) {
+            System.out.println("Provider not found.");
+            return;
+        }
+
+        System.out.println("[1] Name: " + currentProvider.getName());
+        System.out.println("[2] Contact Info: " + currentProvider.getContactInfo());
+        System.out.println("[3] Comments: " + currentProvider.getComments());
+
+        System.out.print("Enter the number of the field you want to modify (1-3) or 0 to cancel: ");
+        int choice = scanner.nextInt();
+        scanner.nextLine();
+
+        String name = currentProvider.getName();
+        String contactInfo = currentProvider.getContactInfo();
+        String comments = currentProvider.getComments();
+
+        switch (choice) {
+            case 1:
+                System.out.print("Enter new Provider Name: ");
+                name = scanner.nextLine();
+                break;
+            case 2:
+                System.out.print("Enter new Provider Contact Info: ");
+                contactInfo = scanner.nextLine();
+                break;
+            case 3:
+                System.out.print("Enter new Provider Comments: ");
+                comments = scanner.nextLine();
+                break;
+            case 0:
+                System.out.println("No changes made.");
+                return;
+            default:
+                System.out.println("Invalid option. No changes made.");
+                return;
+        }
+
+        ProviderClass updatedProvider = new ProviderClass(id, name, contactInfo, comments);
+
+        purchaseManagement.editProvider(String.valueOf(id), updatedProvider);
+        System.out.println("Provider updated successfully!");
     }
+
 
     private static void deleteProvider(Scanner scanner, PurchaseManagement purchaseManagement) {
         System.out.print("Enter Provider ID to delete: ");
         int id = scanner.nextInt();
-        scanner.nextLine();  // Consume newline
+        scanner.nextLine();
         purchaseManagement.deleteProvider(String.valueOf(id));
     }
 
@@ -287,7 +322,7 @@ public class Main {
             System.out.println("4. Back to Main Menu");
             System.out.print("Choose an option: ");
             int choice = scanner.nextInt();
-            scanner.nextLine();  // Consume newline
+            scanner.nextLine();
 
             switch (choice) {
                 case 1:
@@ -338,28 +373,102 @@ public class Main {
     private static void editPurchase(Scanner scanner, PurchaseManagement purchaseManagement) {
         System.out.print("Enter Purchase ID to edit: ");
         String id = scanner.nextLine();
-        System.out.print("Enter New Provider ID: ");
-        String provider = scanner.nextLine();
-        System.out.print("Does the purchase have AppleCare? (true/false): ");
-        boolean hasAppleCare = scanner.nextBoolean();
-        scanner.nextLine();  // Consume newline
-        System.out.print("Enter New AppleCare Invoice Number (if applicable): ");
-        String appleCareInvoice = scanner.nextLine();
-        System.out.print("Enter New Comments: ");
-        String comments = scanner.nextLine();
-        System.out.print("Enter New Location: ");
-        String location = scanner.nextLine();
-        System.out.print("Enter New Price (MX): ");
-        Double priceMx = scanner.nextDouble();
-        System.out.print("Enter New Price (USA): ");
-        Double priceUsa = scanner.nextDouble();
-        System.out.print("Enter New Delivery Status (true/false): ");
-        Boolean deliveryStatus = scanner.nextBoolean();
 
-        File invoice = new File("path_to_invoice_file");
+        if (purchaseManagement.containsPurchase(id)) {
 
-        Purchase purchase = new Purchase(id, invoice, hasAppleCare, appleCareInvoice, comments, location, priceMx, priceUsa, deliveryStatus, provider);
-        purchaseManagement.editPurchase(id, purchase);
+            Purchase currentPurchase = purchaseManagement.getPurchaseById(id);
+
+            System.out.println("[1] Provider: " + currentPurchase.getProvider());
+            System.out.println("[2] Invoice Path: " + currentPurchase.getInvoice().getPath());
+            System.out.println("[3] Has AppleCare: " + currentPurchase.isHasAppleCare());
+            System.out.println("[4] AppleCare Invoice: " + currentPurchase.getAppleCareInvoice());
+            System.out.println("[5] Comments: " + currentPurchase.getComments());
+            System.out.println("[6] Location: " + currentPurchase.getLocation());
+            System.out.println("[7] Price (MX): " + currentPurchase.getPriceMx());
+            System.out.println("[8] Price (USA): " + currentPurchase.getPriceUsa());
+            System.out.println("[9] Delivery Status: " + currentPurchase.getDeliveryStatus());
+            System.out.print("Enter the number of the field you want to modify (1-9) or 0 to cancel: ");
+            int choice = scanner.nextInt();
+            scanner.nextLine();
+
+            String provider = currentPurchase.getProvider();
+            File invoice = currentPurchase.getInvoice();
+            boolean hasAppleCare = currentPurchase.isHasAppleCare();
+            String appleCareInvoice = currentPurchase.getAppleCareInvoice();
+            String comments = currentPurchase.getComments();
+            String location = currentPurchase.getLocation();
+            Double priceMx = currentPurchase.getPriceMx();
+            Double priceUsa = currentPurchase.getPriceUsa();
+            Boolean deliveryStatus = currentPurchase.getDeliveryStatus();
+
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter New Provider: ");
+                    provider = scanner.nextLine();
+                    break;
+                case 2:
+                    System.out.print("Enter New Invoice File Path: ");
+                    String invoicePath = scanner.nextLine();
+                    invoice = new File(invoicePath);
+                    break;
+                case 3:
+                    System.out.print("Does the purchase have AppleCare? (true/false): ");
+                    hasAppleCare = scanner.nextBoolean();
+                    scanner.nextLine();
+                    break;
+                case 4:
+                    System.out.print("Enter New AppleCare Invoice: ");
+                    appleCareInvoice = scanner.nextLine();
+                    break;
+                case 5:
+                    System.out.print("Enter New Comments: ");
+                    comments = scanner.nextLine();
+                    break;
+                case 6:
+                    System.out.print("Enter New Location: ");
+                    location = scanner.nextLine();
+                    break;
+                case 7:
+                    System.out.print("Enter New Price (MX): ");
+                    priceMx = scanner.nextDouble();
+                    scanner.nextLine();
+                    break;
+                case 8:
+                    System.out.print("Enter New Price (USA): ");
+                    priceUsa = scanner.nextDouble();
+                    scanner.nextLine();
+                    break;
+                case 9:
+                    System.out.print("Enter New Delivery Status (true/false): ");
+                    deliveryStatus = scanner.nextBoolean();
+                    scanner.nextLine();
+                    break;
+                case 0:
+                    System.out.println("No changes made.");
+                    return;
+                default:
+                    System.out.println("Invalid option. No changes made.");
+                    return;
+            }
+
+            Purchase updatedPurchase = new Purchase(
+                    id,
+                    invoice,
+                    hasAppleCare,
+                    appleCareInvoice,
+                    comments,
+                    location,
+                    priceMx,
+                    priceUsa,
+                    deliveryStatus,
+                    provider
+            );
+
+            purchaseManagement.editPurchase(id, updatedPurchase);
+            System.out.println("Purchase updated successfully!");
+        } else {
+            System.out.println("Purchase ID not found.");
+        }
     }
 
     private static void deletePurchase(Scanner scanner, PurchaseManagement purchaseManagement) {

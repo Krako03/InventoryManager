@@ -1,9 +1,12 @@
 package com.InventoryManager.Database;
 
+import com.InventoryManager.Model.ProviderClass;
+import com.InventoryManager.Model.Purchase;
 import com.InventoryManager.Model.User;
 import com.InventoryManager.Model.Product;
 import lombok.Setter;
 
+import java.io.File;
 import java.util.*;
 
 @Setter
@@ -86,7 +89,6 @@ public class DataBaseManagement {
         return products;
     }
 
-
     private Product parseProduct(String data) {
         try {
             data = data.replace("Product(", "").replace(")", "");
@@ -116,5 +118,99 @@ public class DataBaseManagement {
             return null;
         }
     }
+
+    public List<Purchase> getPurchases() {
+        List<String> purchaseStrings = dataStorage.getOrDefault("purchase", Collections.emptyList());
+        List<Purchase> purchases = new ArrayList<>();
+
+        for (String purchaseString : purchaseStrings) {
+            Purchase purchase = parsePurchase(purchaseString);
+            if (purchase != null) {
+                purchases.add(purchase);
+            }
+        }
+        return purchases;
+    }
+
+    private Purchase parsePurchase(String data) {
+        try {
+            // Limpiar la cadena de formato Purchase()
+            data = data.replace("Purchase(", "").replace(")", "");
+            String[] parts = data.split(", ");
+
+            // Usar un mapa para almacenar las claves y valores
+            Map<String, String> values = new HashMap<>();
+
+            // Extraer los valores
+            for (String part : parts) {
+                String[] keyValue = part.split("=", 2);
+                if (keyValue.length == 2) {
+                    values.put(keyValue[0].trim(), keyValue[1].trim());
+                }
+            }
+
+            // Asignar los valores extraídos al objeto Purchase
+            String id = values.getOrDefault("id", "");
+            // En el caso de 'invoice', tendrías que gestionar el tipo File, es posible que necesites una conversión si es necesario
+            File invoice = new File(values.getOrDefault("invoice", ""));
+            boolean hasAppleCare = Boolean.parseBoolean(values.getOrDefault("hasAppleCare", "false"));
+            String appleCareInvoice = values.getOrDefault("appleCareInvoice", "");
+            String comments = values.getOrDefault("comments", "");
+            String location = values.getOrDefault("location", "");
+            Double priceMx = Double.parseDouble(values.getOrDefault("priceMx", "0.0"));
+            Double priceUsa = Double.parseDouble(values.getOrDefault("priceUsa", "0.0"));
+            Boolean deliveryStatus = Boolean.valueOf(values.getOrDefault("deliveryStatus", "false"));
+            String provider = values.getOrDefault("provider", "");
+
+            // Crear y devolver el objeto Purchase
+            return new Purchase(id, invoice, hasAppleCare, appleCareInvoice, comments, location, priceMx, priceUsa, deliveryStatus, provider);
+        } catch (Exception e) {
+            System.out.println("Error parsing purchase: " + data);
+            return null;
+        }
+
+    }
+
+    public List<ProviderClass> getProviders() {
+        List<String> providerStrings = dataStorage.getOrDefault("provider", Collections.emptyList());
+        List<ProviderClass> providers = new ArrayList<>();
+
+        for (String providerString : providerStrings) {
+            ProviderClass provider = parseProvider(providerString);
+            if (provider != null) {
+                providers.add(provider);
+            }
+        }
+        return providers;
+    }
+
+    private ProviderClass parseProvider(String data) {
+        try {
+            // Suponiendo que el formato es "ProviderClass(id=..., name=..., contactInfo=..., comments=...)"
+            data = data.replace("ProviderClass(", "").replace(")", "");
+            String[] parts = data.split(", ");
+
+            Map<String, String> values = new HashMap<>();
+            for (String part : parts) {
+                String[] keyValue = part.split("=", 2);
+                if (keyValue.length == 2) {
+                    values.put(keyValue[0].trim(), keyValue[1].trim());
+                }
+            }
+
+            // Extraer y convertir los valores según el modelo de ProviderClass
+            int id = Integer.parseInt(values.getOrDefault("id", "0"));
+            String name = values.getOrDefault("name", "");
+            String contactInfo = values.getOrDefault("contactInfo", "");
+            String comments = values.getOrDefault("comments", "");
+
+            return new ProviderClass(id, name, contactInfo, comments);
+        } catch (Exception e) {
+            System.out.println("Error parsing provider: " + data);
+            return null;
+        }
+    }
+
+
 
 }

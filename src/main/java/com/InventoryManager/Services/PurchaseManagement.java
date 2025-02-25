@@ -1,6 +1,7 @@
 package com.InventoryManager.Services;
 
 import com.InventoryManager.Database.DataBaseManagement;
+import com.InventoryManager.Model.Product;
 import com.InventoryManager.Model.ProviderClass;
 import com.InventoryManager.Model.Purchase;
 
@@ -40,6 +41,29 @@ public class PurchaseManagement {
         dataBaseManagement.saveData("purchase",purchases);
     }
 
+    public boolean containsPurchase(String id){
+        List<Purchase> purchasesObj = dataBaseManagement.getPurchases();
+
+        for (int i =0;  i<purchasesObj.size(); i++){
+            if (purchasesObj.get(i).getId().equals(id)){
+                return true;
+            }
+
+        }
+        return false;
+    }
+
+    public Purchase getPurchaseById(String id){
+        List<Purchase> purchasesObj = dataBaseManagement.getPurchases();
+
+        for (int i =0;  i<purchasesObj.size(); i++){
+            if (purchasesObj.get(i).getId().equals(id)){
+                return purchasesObj.get(i);
+            }
+
+        }
+        return null;
+    }
     public void addProvider(ProviderClass provider) {
         dataBaseManagement.saveData("provider", List.of(provider.toString()));
     }
@@ -60,4 +84,40 @@ public class PurchaseManagement {
         providers.removeIf(provider->provider.contains(id));
         dataBaseManagement.saveData("provider",providers);
     }
+    public boolean containsIdProvider(String id) {
+        int providerId;
+        try {
+            providerId = Integer.parseInt(id);
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid provider id format: " + id);
+            return false;
+        }
+
+        List<ProviderClass> providers = dataBaseManagement.getProviders();
+        for (ProviderClass provider : providers) {
+            if (provider.getId() == providerId) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public ProviderClass getProviderById(String id) {
+        int providerId;
+        try {
+            providerId = Integer.parseInt(id);
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid provider id format: " + id);
+            return null;
+        }
+
+        List<ProviderClass> providers = dataBaseManagement.getProviders();
+        for (ProviderClass provider : providers) {
+            if (provider.getId() == providerId) {
+                return provider;
+            }
+        }
+        return null;
+    }
+
 }

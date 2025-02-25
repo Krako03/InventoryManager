@@ -46,7 +46,6 @@ public class InventoryManagement {
 
         List<Product> productsObj = dataBaseManagement.getProducts();
 
-        System.out.println(productsObj);
         for (int i =0;  i<productsObj.size(); i++){
             if (productsObj.get(i).getId().equals(id)){
                 return true;
@@ -58,12 +57,10 @@ public class InventoryManagement {
     public Product getProductById(String id){
         List<Product> productsObj = dataBaseManagement.getProducts();
 
-        System.out.println(productsObj);
         for (int i =0;  i<productsObj.size(); i++){
             if (productsObj.get(i).getId().equals(id)){
                 return productsObj.get(i);
             }
-
         }
         return null;
     }
