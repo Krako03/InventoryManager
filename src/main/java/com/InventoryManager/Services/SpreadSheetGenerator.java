@@ -31,6 +31,7 @@ public class SpreadSheetGenerator {
         // Populate rows with product data
         int rowNum = 1;
         for (Product product : products) {
+
             Row row = sheet.createRow(rowNum++);
             row.createCell(0).setCellValue(product.getId());
             row.createCell(1).setCellValue(product.getStatus());
@@ -40,6 +41,7 @@ public class SpreadSheetGenerator {
             row.createCell(5).setCellValue(product.getBrand());
             row.createCell(6).setCellValue(product.getLocation());
             row.createCell(7).setCellValue(product.getComments());
+            System.out.println(product);
         }
 
         // Auto-size columns for better readability
