@@ -37,10 +37,23 @@ public class Main {
                 System.out.println("6. Print All Data");
                 System.out.println("7. Log out");
                 System.out.print("Choose an option: ");
-                int choice = scanner.nextInt();
-                scanner.nextLine();
 
-                switch (choice) {
+                /*int choice=0;
+                while (true) {
+                    System.out.print("Choose an option: ");
+                    if (scanner.hasNextInt()) {
+                       choice = scanner.nextInt();
+                        scanner.nextLine();
+                        break;
+                    } else {
+                        System.out.println("Error: Not valid Option.");
+                        scanner.next();
+                    }
+                }
+                */
+
+
+                switch (validChoice(scanner)) {
                     case 1:
                         manageProducts(scanner, dataBaseManagement);
                         break;
@@ -83,10 +96,9 @@ public class Main {
             System.out.println("3. Delete Product");
             System.out.println("4. Back to Main Menu");
             System.out.print("Choose an option: ");
-            int choice = scanner.nextInt();
-            scanner.nextLine();
 
-            switch (choice) {
+
+            switch (validChoice(scanner)) {
                 case 1:
                     createProduct(scanner, inventoryManagement);
                     break;
@@ -141,8 +153,7 @@ public class Main {
             System.out.println("[7] Comments: " + currentProduct.getComments());
 
             System.out.print("Enter the number of the field you want to modify (1-7) or 0 to cancel: ");
-            int choice = scanner.nextInt();
-            scanner.nextLine();
+            int choice = validChoice(scanner);
 
             String name = currentProduct.getName();
             String brand = currentProduct.getBrand();
@@ -215,10 +226,9 @@ public class Main {
             System.out.println("3. Delete Provider");
             System.out.println("4. Back to Main Menu");
             System.out.print("Choose an option: ");
-            int choice = scanner.nextInt();
-            scanner.nextLine();
 
-            switch (choice) {
+
+            switch (validChoice(scanner)) {
                 case 1:
                     addProvider(scanner, purchaseManagement);
                     break;
@@ -268,8 +278,7 @@ public class Main {
         System.out.println("[3] Comments: " + currentProvider.getComments());
 
         System.out.print("Enter the number of the field you want to modify (1-3) or 0 to cancel: ");
-        int choice = scanner.nextInt();
-        scanner.nextLine();
+        int choice = validChoice(scanner);
 
         String name = currentProvider.getName();
         String contactInfo = currentProvider.getContactInfo();
@@ -321,10 +330,9 @@ public class Main {
             System.out.println("3. Delete Purchase");
             System.out.println("4. Back to Main Menu");
             System.out.print("Choose an option: ");
-            int choice = scanner.nextInt();
-            scanner.nextLine();
 
-            switch (choice) {
+
+            switch (validChoice(scanner)) {
                 case 1:
                     createPurchase(scanner, purchaseManagement);
                     break;
@@ -388,8 +396,7 @@ public class Main {
             System.out.println("[8] Price (USA): " + currentPurchase.getPriceUsa());
             System.out.println("[9] Delivery Status: " + currentPurchase.getDeliveryStatus());
             System.out.print("Enter the number of the field you want to modify (1-9) or 0 to cancel: ");
-            int choice = scanner.nextInt();
-            scanner.nextLine();
+            int choice = validChoice(scanner);
 
             String provider = currentPurchase.getProvider();
             File invoice = currentPurchase.getInvoice();
@@ -494,5 +501,18 @@ public class Main {
 
         dataBaseManagement.saveData("product", Collections.singletonList(productList.toString()));
         System.out.println("Products imported successfully!");
+    }
+
+    private static int validChoice(Scanner scanner){
+        int choice =0;
+        if (scanner.hasNextInt()) {
+            choice = scanner.nextInt();
+            scanner.nextLine();
+
+        } else {
+            System.out.println("");
+            scanner.next();
+        }
+        return choice;
     }
 }
