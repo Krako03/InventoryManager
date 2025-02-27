@@ -3,7 +3,6 @@ package com.InventoryManager.Model;
 import lombok.*;
 
 @Data
-@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 public class Product {

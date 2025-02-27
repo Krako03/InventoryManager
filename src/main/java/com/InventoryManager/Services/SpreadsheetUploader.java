@@ -5,6 +5,9 @@ import com.InventoryManager.Model.Product;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.net.URL;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.poi.ss.usermodel.*;
@@ -17,7 +20,10 @@ public class SpreadsheetUploader {
     private List<Product> dataBase;
 
     public SpreadsheetUploader(String fileName) {
-        this.fileName = fileName;
+        URL resource = getClass().getClassLoader().getResource(fileName);
+        assert resource != null;
+        Path path = Paths.get(resource.getPath());
+        this.fileName = path.toString();
         dataBase = new ArrayList<>();
     }
 
@@ -53,7 +59,8 @@ public class SpreadsheetUploader {
             }
             return loaded;
         } catch (IOException e) {
-            throw new RuntimeException("Error reading the Excel file: " + e.getMessage(), e);
+            System.out.println("Error reading the Excel file: " + e.getMessage());
+            return List.of();
         }
     }
 

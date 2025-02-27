@@ -47,6 +47,8 @@ public class SpreadSheetGenerator {
             sheet.autoSizeColumn(i);
         }
 
+        filePath = "src/main/resources/" + filePath;
+
         // Write to file
         try (FileOutputStream fileOut = new FileOutputStream(filePath)) {
             workbook.write(fileOut);

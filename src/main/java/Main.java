@@ -494,13 +494,15 @@ public class Main {
 
     private static void importProductsFromExcel(Scanner scanner, DataBaseManagement dataBaseManagement) {
         System.out.println("Write a file name to import");
-        String filepath=scanner.nextLine();
+        String filepath = scanner.nextLine();
         SpreadsheetUploader up = new SpreadsheetUploader(filepath);
 
         List<Product> productList = up.uploadSpreadsheet();
 
-        dataBaseManagement.saveData("product", Collections.singletonList(productList.toString()));
-        System.out.println("Products imported successfully!");
+        if (!productList.isEmpty()) {
+            dataBaseManagement.saveData("product", Collections.singletonList(productList.toString()));
+            System.out.println("Products imported successfully!");
+        }
     }
 
     private static int validChoice(Scanner scanner){
