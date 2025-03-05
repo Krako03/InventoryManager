@@ -18,4 +18,4 @@ foo@bar:~$ docker compose up -d
 
 Note: the '-d' flag just dettach the execution from the terminal, but you can also run it without it.
 
-This process will automatically create the database schema on your volume if you don't arealdy have it.
+This process will automatically create the database schema on your volume if you don't already have it.
