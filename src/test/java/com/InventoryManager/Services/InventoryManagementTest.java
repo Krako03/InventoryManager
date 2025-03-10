@@ -1,6 +1,6 @@
 package com.InventoryManager.Services;
 
-import com.InventoryManager.Database.DataBaseManagement;
+import com.InventoryManager.Utilities.DataBaseManagement;
 import com.InventoryManager.Model.Product;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

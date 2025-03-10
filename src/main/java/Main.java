@@ -1,4 +1,4 @@
-import com.InventoryManager.Database.DataBaseManagement;
+import com.InventoryManager.Utilities.DataBaseManagement;
 import com.InventoryManager.Model.Product;
 import com.InventoryManager.Model.ProviderClass;
 import com.InventoryManager.Model.Purchase;
@@ -37,21 +37,6 @@ public class Main {
                 System.out.println("6. Print All Data");
                 System.out.println("7. Log out");
                 System.out.print("Choose an option: ");
-
-                /*int choice=0;
-                while (true) {
-                    System.out.print("Choose an option: ");
-                    if (scanner.hasNextInt()) {
-                       choice = scanner.nextInt();
-                        scanner.nextLine();
-                        break;
-                    } else {
-                        System.out.println("Error: Not valid Option.");
-                        scanner.next();
-                    }
-                }
-                */
-
 
                 switch (validChoice(scanner)) {
                     case 1:

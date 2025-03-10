@@ -1,7 +1,6 @@
 package com.InventoryManager.Services;
 
-import com.InventoryManager.Database.DataBaseManagement;
-import com.InventoryManager.Model.Product;
+import com.InventoryManager.Utilities.DataBaseManagement;
 import com.InventoryManager.Model.ProviderClass;
 import com.InventoryManager.Model.Purchase;
 

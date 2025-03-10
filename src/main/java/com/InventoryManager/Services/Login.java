@@ -1,6 +1,6 @@
 package com.InventoryManager.Services;
 
-import com.InventoryManager.Database.DataBaseManagement;
+import com.InventoryManager.Utilities.DataBaseManagement;
 import com.InventoryManager.Model.User;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;

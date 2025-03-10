@@ -1,4 +1,4 @@
-package com.InventoryManager.Database;
+package com.InventoryManager.Utilities;
 
 import com.InventoryManager.Model.ProviderClass;
 import com.InventoryManager.Model.Purchase;
