@@ -1,4 +1,4 @@
-import com.InventoryManager.Model.Asset;
+/*import com.InventoryManager.Model.Asset;
 import com.InventoryManager.Utilities.DataBaseManagement;
 import com.InventoryManager.Model.ProviderClass;
 import com.InventoryManager.Model.Purchase;
@@ -501,5 +501,67 @@ public class Main {
             scanner.next();
         }
         return choice;
+    }
+}
+/*
+
+
+ */
+
+
+import com.InventoryManager.Model.ProviderClass;
+import com.InventoryManager.repositories.ProviderRepository;
+import com.InventoryManager.Utilities.DBConnection;
+import com.InventoryManager.Utilities.DataBaseConnection;
+
+import java.util.List;
+import java.util.Optional;
+
+public class Main {
+    public static void main(String[] args) {
+        // Datos de conexión (ajustar según tu entorno)
+        String jdbcUrl = "jdbc:postgresql://localhost:5436/managementDB";
+        String username = "admin";
+        String password = "i2345678";
+
+        // Crear conexión
+        DBConnection dbConnection = new DBConnection(jdbcUrl, username, password);
+        DataBaseConnection dataBaseConnection = new DataBaseConnection(dbConnection);
+        ProviderRepository providerRepository = new ProviderRepository(dataBaseConnection);
+
+        // 1️⃣ Insertar un proveedor
+        ProviderClass newProvider = new ProviderClass();
+        newProvider.setName("layeeeeer");
+        newProvider.setContact("layeeeeer@techsupplies.com");
+        providerRepository.save(newProvider);
+        System.out.println("✅ Proveedor insertado");
+
+        // 2️⃣ Obtener todos los proveedores
+        List<ProviderClass> providers = providerRepository.findAll();
+        System.out.println("📋 Lista de proveedores:");
+        providers.forEach(System.out::println);
+
+        // 3️⃣ Buscar un proveedor por ID
+        Optional<ProviderClass> foundProvider = providerRepository.findById(1);
+        foundProvider.ifPresent(provider -> System.out.println("🔍 Proveedor encontrado: " + provider));
+
+        // 4️⃣ Actualizar proveedor
+        if (foundProvider.isPresent()) {
+            ProviderClass providerToUpdate = foundProvider.get();
+            providerToUpdate.setName("Updated Supplies Inc.");
+            providerRepository.update(providerToUpdate);
+            System.out.println("✏️ Proveedor actualizado");
+        }
+
+        // 5️⃣ Eliminar proveedor
+        /*
+        if (foundProvider.isPresent()) {
+            providerRepository.deleteById(foundProvider.get().getId());
+            System.out.println("❌ Proveedor eliminado");
+        }
+        */
+
+        // Cerrar conexión
+        dbConnection.close();
     }
 }

@@ -1,4 +1,4 @@
-package com.InventoryManager.Services;
+/*package com.InventoryManager.Services;
 
 import com.InventoryManager.Utilities.DataBaseManagement;
 import com.InventoryManager.Model.ProviderClass;
@@ -119,4 +119,4 @@ public class PurchaseManagement {
         return null;
     }
 
-}
+}*/

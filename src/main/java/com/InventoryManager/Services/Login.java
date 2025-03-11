@@ -1,4 +1,4 @@
-package com.InventoryManager.Services;
+/*package com.InventoryManager.Services;
 
 import com.InventoryManager.Utilities.DataBaseManagement;
 import com.InventoryManager.Model.User;
@@ -18,4 +18,4 @@ public class Login {
         Optional<User> user = dataBaseManagement.containsUser(username, password);
         return user.isPresent();
     }
-}
+}*/

@@ -1,9 +1,14 @@
 package com.InventoryManager.Model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.util.List;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class ProviderClass {
     private Integer id;
     private String name;

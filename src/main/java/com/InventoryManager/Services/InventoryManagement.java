@@ -1,4 +1,4 @@
-package com.InventoryManager.Services;
+/*package com.InventoryManager.Services;
 
 import com.InventoryManager.Model.Asset;
 import com.InventoryManager.Utilities.DataBaseManagement;
@@ -64,4 +64,4 @@ public class InventoryManagement {
         }
         return null;
     }
-}
+}*/

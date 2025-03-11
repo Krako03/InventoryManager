@@ -17,7 +17,7 @@ public class DataBaseConnection {
         this.dbConnection = dbConnection;
     }
 
-    void execute(String query, Object...args) {
+    public void execute(String query, Object... args) {
         try (Connection con = dbConnection.getConnection();
                 PreparedStatement ps = con.prepareStatement(query)) {
             for (int i = 0; i < args.length; i++) {
@@ -39,7 +39,7 @@ public class DataBaseConnection {
         }
     }
 
-    <T> T findOne(String query, Function<ResultSet, T> mapper, Object...args) {
+  public <T> T findOne(String query, Function<ResultSet, T> mapper, Object...args) {
         try (Connection con = dbConnection.getConnection();
              PreparedStatement ps = con.prepareStatement(query)) {
             for (int i = 0; i < args.length; i++) {
@@ -64,7 +64,7 @@ public class DataBaseConnection {
         }
     }
 
-    <T> List<T> findMany(String query, Function<ResultSet, T> mapper, Object...args) {
+    public <T> List<T> findMany(String query, Function<ResultSet, T> mapper, Object... args) {
         try (Connection con = dbConnection.getConnection();
              PreparedStatement ps = con.prepareStatement(query)) {
             for (int i = 0; i < args.length; i++) {
