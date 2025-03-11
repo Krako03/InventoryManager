@@ -1,7 +1,7 @@
 package com.InventoryManager.Services;
 
+import com.InventoryManager.Model.Asset;
 import com.InventoryManager.Utilities.DataBaseManagement;
-import com.InventoryManager.Model.Product;
 
 import java.util.List;
 
@@ -12,19 +12,19 @@ public class InventoryManagement {
         this.dataBaseManagement=dataBaseManagement;
     }
 
-    public void createProduct(Product product) {
-        if(dataBaseManagement.notExists("product", product.getId())) {
-            dataBaseManagement.saveData("product", List.of(product.toString()));
+    public void createProduct(Asset asset) {
+        if(dataBaseManagement.notExists("asset", asset.getId())) {
+            dataBaseManagement.saveData("asset", List.of(asset.toString()));
         } else {
             System.out.println("Error: ID already defined in the db");
         }
     }
 
-    public void editProduct(String id, Product newProduct) {
+    public void editProduct(String id, Asset newAsset) {
         List<String> products = dataBaseManagement.getData("product");
         for (int i = 0; i < products.size(); i++) {
             if (products.get(i).contains("id=" + id + "")) {
-                products.set(i, newProduct.toString());
+                products.set(i, newAsset.toString());
                 break;
             }
         }
@@ -37,14 +37,14 @@ public class InventoryManagement {
         dataBaseManagement.saveData("product",products);
     }
 
-    public List<Product> getProducts() {
+    public List<Asset> getProducts() {
         List<String> productStrings = dataBaseManagement.getData("product");
         return null;
     }
 
     public boolean containsId(String id){
 
-        List<Product> productsObj = dataBaseManagement.getProducts();
+        List<Asset> productsObj = dataBaseManagement.getProducts();
 
         for (int i =0;  i<productsObj.size(); i++){
             if (productsObj.get(i).getId().equals(id)){
@@ -54,8 +54,8 @@ public class InventoryManagement {
         return false;
     }
 
-    public Product getProductById(String id){
-        List<Product> productsObj = dataBaseManagement.getProducts();
+    public Asset getProductById(String id){
+        List<Asset> productsObj = dataBaseManagement.getProducts();
 
         for (int i =0;  i<productsObj.size(); i++){
             if (productsObj.get(i).getId().equals(id)){

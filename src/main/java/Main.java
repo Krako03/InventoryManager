@@ -1,5 +1,5 @@
+import com.InventoryManager.Model.Asset;
 import com.InventoryManager.Utilities.DataBaseManagement;
-import com.InventoryManager.Model.Product;
 import com.InventoryManager.Model.ProviderClass;
 import com.InventoryManager.Model.Purchase;
 import com.InventoryManager.Services.InventoryManagement;
@@ -76,9 +76,9 @@ public class Main {
         boolean isProductMenuRunning = true;
         while (isProductMenuRunning) {
             System.out.println("\nManage Products Menu:");
-            System.out.println("1. Create Product");
-            System.out.println("2. Edit Product");
-            System.out.println("3. Delete Product");
+            System.out.println("1. Create Asset");
+            System.out.println("2. Edit Asset");
+            System.out.println("3. Delete Asset");
             System.out.println("4. Back to Main Menu");
             System.out.print("Choose an option: ");
 
@@ -103,13 +103,13 @@ public class Main {
     }
 
     private static void createProduct(Scanner scanner, InventoryManagement inventoryManagement) {
-        System.out.print("Enter Product ID: ");
+        System.out.print("Enter Asset ID: ");
         String id = scanner.nextLine();
-        System.out.print("Enter Product Name: ");
+        System.out.print("Enter Asset Name: ");
         String name = scanner.nextLine();
-        System.out.print("Enter Product Brand: ");
+        System.out.print("Enter Asset Brand: ");
         String brand = scanner.nextLine();
-        System.out.print("Enter Product Serial Number: ");
+        System.out.print("Enter Asset Serial Number: ");
         String serialNumber = scanner.nextLine();
         System.out.print("Enter Assignment Name: ");
         String assigmentName = scanner.nextLine();
@@ -120,45 +120,45 @@ public class Main {
         System.out.print("Enter Comments: ");
         String comments = scanner.nextLine();
 
-        Product product = new Product(id, name, brand, serialNumber, assigmentName, location, status, comments);
-        inventoryManagement.createProduct(product);
+        Asset asset = new Asset(id, name, brand, serialNumber, assigmentName, location, status, comments);
+        inventoryManagement.createProduct(asset);
     }
 
     private static void editProduct(Scanner scanner, InventoryManagement inventoryManagement) {
-        System.out.print("Enter Product ID to edit: ");
+        System.out.print("Enter Asset ID to edit: ");
         String id = scanner.nextLine();
         if (inventoryManagement.containsId(id)) {
-            Product currentProduct = inventoryManagement.getProductById(id);
-            System.out.println("[1] Name: " + currentProduct.getName());
-            System.out.println("[2] Brand: " + currentProduct.getBrand());
-            System.out.println("[3] Serial Number: " + currentProduct.getSerialNumber());
-            System.out.println("[4] Assignment Name: " + currentProduct.getAssigmentName());
-            System.out.println("[5] Location: " + currentProduct.getLocation());
-            System.out.println("[6] Status: " + currentProduct.getStatus());
-            System.out.println("[7] Comments: " + currentProduct.getComments());
+            Asset currentAsset = inventoryManagement.getProductById(id);
+            System.out.println("[1] Name: " + currentAsset.getName());
+            System.out.println("[2] Brand: " + currentAsset.getBrand());
+            System.out.println("[3] Serial Number: " + currentAsset.getSerialNumber());
+            System.out.println("[4] Assignment Name: " + currentAsset.getAssigmentName());
+            System.out.println("[5] Location: " + currentAsset.getLocation());
+            System.out.println("[6] Status: " + currentAsset.getStatus());
+            System.out.println("[7] Comments: " + currentAsset.getComments());
 
             System.out.print("Enter the number of the field you want to modify (1-7) or 0 to cancel: ");
             int choice = validChoice(scanner);
 
-            String name = currentProduct.getName();
-            String brand = currentProduct.getBrand();
-            String serialNumber = currentProduct.getSerialNumber();
-            String assigmentName = currentProduct.getAssigmentName();
-            String location = currentProduct.getLocation();
-            String status = currentProduct.getStatus();
-            String comments = currentProduct.getComments();
+            String name = currentAsset.getName();
+            String brand = currentAsset.getBrand();
+            String serialNumber = currentAsset.getSerialNumber();
+            String assigmentName = currentAsset.getAssigmentName();
+            String location = currentAsset.getLocation();
+            String status = currentAsset.getStatus();
+            String comments = currentAsset.getComments();
 
             switch (choice) {
                 case 1:
-                    System.out.print("Enter New Product Name: ");
+                    System.out.print("Enter New Asset Name: ");
                     name = scanner.nextLine();
                     break;
                 case 2:
-                    System.out.print("Enter New Product Brand: ");
+                    System.out.print("Enter New Asset Brand: ");
                     brand = scanner.nextLine();
                     break;
                 case 3:
-                    System.out.print("Enter New Product Serial Number: ");
+                    System.out.print("Enter New Asset Serial Number: ");
                     serialNumber = scanner.nextLine();
                     break;
                 case 4:
@@ -184,9 +184,9 @@ public class Main {
                     System.out.println("Invalid choice.");
                     return;
             }
-            Product updatedProduct = new Product(id, name, brand, serialNumber, assigmentName, location, status, comments);
+            Asset updatedAsset = new Asset(id, name, brand, serialNumber, assigmentName, location, status, comments);
 
-            inventoryManagement.editProduct(id, updatedProduct);
+            inventoryManagement.editProduct(id, updatedAsset);
         }
         else{
             System.out.println("Id not found.");
@@ -195,7 +195,7 @@ public class Main {
     }
 
     private static void deleteProduct(Scanner scanner, InventoryManagement inventoryManagement) {
-        System.out.print("Enter Product ID to delete: ");
+        System.out.print("Enter Asset ID to delete: ");
         String id = scanner.nextLine();
         inventoryManagement.deleteProduct(id);
     }
@@ -482,10 +482,10 @@ public class Main {
         String filepath = scanner.nextLine();
         SpreadsheetUploader up = new SpreadsheetUploader(filepath);
 
-        List<Product> productList = up.uploadSpreadsheet();
+        List<Asset> assetList = up.uploadSpreadsheet();
 
-        if (!productList.isEmpty()) {
-            dataBaseManagement.saveData("product", Collections.singletonList(productList.toString()));
+        if (!assetList.isEmpty()) {
+            dataBaseManagement.saveData("product", Collections.singletonList(assetList.toString()));
             System.out.println("Products imported successfully!");
         }
     }

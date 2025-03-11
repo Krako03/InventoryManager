@@ -1,9 +1,9 @@
 package com.InventoryManager.Utilities;
 
+import com.InventoryManager.Model.Asset;
 import com.InventoryManager.Model.ProviderClass;
 import com.InventoryManager.Model.Purchase;
 import com.InventoryManager.Model.User;
-import com.InventoryManager.Model.Product;
 import lombok.Setter;
 
 import java.io.File;
@@ -76,22 +76,22 @@ public class DataBaseManagement {
                 .findAny();
     }
 
-    public List<Product> getProducts() {
+    public List<Asset> getProducts() {
         List<String> productStrings = dataStorage.getOrDefault("product", Collections.emptyList());
-        List<Product> products = new ArrayList<>();
+        List<Asset> assets = new ArrayList<>();
 
         for (String productString : productStrings) {
-            Product product = parseProduct(productString);
-            if (product != null) {
-                products.add(product);
+            Asset asset = parseProduct(productString);
+            if (asset != null) {
+                assets.add(asset);
             }
         }
-        return products;
+        return assets;
     }
 
-    private Product parseProduct(String data) {
+    private Asset parseProduct(String data) {
         try {
-            data = data.replace("Product(", "").replace(")", "");
+            data = data.replace("Asset(", "").replace(")", "");
             String[] parts = data.split(", ");
 
             Map<String, String> values = new HashMap<>();
@@ -103,7 +103,7 @@ public class DataBaseManagement {
                 }
             }
 
-            return new Product(
+            return new Asset(
                     values.getOrDefault("id", ""),
                     values.getOrDefault("name", ""),
                     values.getOrDefault("brand", ""),

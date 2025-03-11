@@ -1,21 +1,14 @@
 package com.InventoryManager.Model;
 
-import java.io.File;
-import lombok.*;
+import lombok.Data;
+
+import java.util.List;
 
 @Data
-@ToString
-@NoArgsConstructor
-@AllArgsConstructor
 public class Purchase {
-    private String id;
-    private File invoice;
-    private boolean hasAppleCare;
-    private String appleCareInvoice;
-    private String comments;
-    private String location;
-    private Double priceMx;
-    private Double priceUsa;
-    private Boolean deliveryStatus;
-    private String  provider;
+    private Integer id;
+    private Integer providerId; // FK
+    private String date;
+    private Double totalAmount;
+    private List<PurchaseDetail> purchaseDetails;
 }

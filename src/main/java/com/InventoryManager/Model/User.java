@@ -1,12 +1,14 @@
 package com.InventoryManager.Model;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
+import jakarta.persistence.*;
+import java.util.List;
 
 @Data
-@AllArgsConstructor
 public class User {
-    String username;
-    String password;
-    String role;
+    private Integer id;
+    private Integer employeeId; // FK
+    private Role role;
+    private String username;
+    private String password;
 }
