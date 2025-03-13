@@ -18,7 +18,7 @@ public class DBConnection {
         config.setIdleTimeout(30000);
         config.setMaxLifetime(600000);
         config.setConnectionTimeout(3000);
-        config.setDriverClassName("org.postgresql.Driver");
+        // config.setDriverClassName("org.postgresql.Driver");
 
         this.dataSource = new HikariDataSource(config);
     }
