@@ -1,5 +1,7 @@
 package com.InventoryManager.Utilities;
 
+import com.InventoryManager.utilities.DBConnection;
+import com.InventoryManager.utilities.DataBaseConnection;
 import org.junit.jupiter.api.*;
 
 import java.sql.SQLException;

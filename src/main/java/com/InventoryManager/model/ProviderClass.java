@@ -1,18 +1,17 @@
-package com.InventoryManager.Model;
-
+package com.InventoryManager.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
+
+import java.util.List;
 
 @Data
-@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProviderClass {
-    private int id;
+    private Integer id;
     private String name;
-    private String contactInfo;
-    private String comments;
+    private String contact;
+    private List<Purchase> purchases;
 }

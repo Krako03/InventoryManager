@@ -1,6 +1,6 @@
-package com.InventoryManager.Services;
+/*package com.InventoryManager.services;
 
-import com.InventoryManager.Model.Product;
+import com.InventoryManager.model.Asset;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.List;
 
 public class SpreadSheetGenerator {
-    public void exportToExcel(List<Product> products, String filePath) {
+    public void exportToExcel(List<Asset> assets, String filePath) {
         Workbook workbook = new XSSFWorkbook();
         Sheet sheet = workbook.createSheet("Products");
 
@@ -30,16 +30,16 @@ public class SpreadSheetGenerator {
 
         // Populate rows with product data
         int rowNum = 1;
-        for (Product product : products) {
+        for (Asset asset : assets) {
             Row row = sheet.createRow(rowNum++);
-            row.createCell(0).setCellValue(product.getId());
-            row.createCell(1).setCellValue(product.getStatus());
-            row.createCell(2).setCellValue(product.getName());
-            row.createCell(3).setCellValue(product.getAssigmentName());
-            row.createCell(4).setCellValue(product.getSerialNumber());
-            row.createCell(5).setCellValue(product.getBrand());
-            row.createCell(6).setCellValue(product.getLocation());
-            row.createCell(7).setCellValue(product.getComments());
+            row.createCell(0).setCellValue(asset.getId());
+            row.createCell(1).setCellValue(asset.getStatus());
+            row.createCell(2).setCellValue(asset.getName());
+            row.createCell(3).setCellValue(asset.getAssigmentName());
+            row.createCell(4).setCellValue(asset.getSerialNumber());
+            row.createCell(5).setCellValue(asset.getBrand());
+            row.createCell(6).setCellValue(asset.getLocation());
+            row.createCell(7).setCellValue(asset.getComments());
         }
 
         // Auto-size columns for better readability
@@ -63,4 +63,4 @@ public class SpreadSheetGenerator {
             }
         }
     }
-}
+}*/

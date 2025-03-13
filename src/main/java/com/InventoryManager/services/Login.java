@@ -1,7 +1,7 @@
-package com.InventoryManager.Services;
+/*package com.InventoryManager.services;
 
-import com.InventoryManager.Utilities.DataBaseManagement;
-import com.InventoryManager.Model.User;
+import com.InventoryManager.utilities.DataBaseManagement;
+import com.InventoryManager.model.User;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
@@ -18,4 +18,4 @@ public class Login {
         Optional<User> user = dataBaseManagement.containsUser(username, password);
         return user.isPresent();
     }
-}
+}*/

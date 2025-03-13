@@ -1,8 +1,8 @@
-package com.InventoryManager.Services;
+/*package com.InventoryManager.services;
 
-import com.InventoryManager.Utilities.DataBaseManagement;
-import com.InventoryManager.Model.ProviderClass;
-import com.InventoryManager.Model.Purchase;
+import com.InventoryManager.utilities.DataBaseManagement;
+import com.InventoryManager.model.ProviderClass;
+import com.InventoryManager.model.Purchase;
 
 import java.util.List;
 
@@ -119,4 +119,4 @@ public class PurchaseManagement {
         return null;
     }
 
-}
+}*/

@@ -1,4 +1,4 @@
-package com.InventoryManager.Utilities;
+package com.InventoryManager.utilities;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -17,7 +17,7 @@ public class DataBaseConnection {
         this.dbConnection = dbConnection;
     }
 
-    void execute(String query, Object...args) throws SQLException {
+    public void execute(String query, Object...args) {
         try (Connection con = dbConnection.getConnection();
                 PreparedStatement ps = con.prepareStatement(query)) {
             for (int i = 0; i < args.length; i++) {
@@ -25,21 +25,21 @@ public class DataBaseConnection {
             }
             ps.executeUpdate();
         } catch (SQLException e) {
-            throw new SQLException("Error executing query: " + query, e);
+            throw new RuntimeException("Error executing query: " + query, e);
         }
     }
 
-    void execute(String query, Consumer<PreparedStatement> args) throws SQLException {
+    public void execute(String query, Consumer<PreparedStatement> args) {
         try (Connection con = dbConnection.getConnection();
              PreparedStatement ps = con.prepareStatement(query)) {
             args.accept(ps);
             ps.executeUpdate();
         } catch (SQLException e) {
-            throw new SQLException("Error executing query: " + query, e);
+            throw new RuntimeException("Error executing query: " + query, e);
         }
     }
 
-    <T> T findOne(String query, Function<ResultSet, T> mapper, Object...args) throws SQLException {
+    public <T> T findOne(String query, Function<ResultSet, T> mapper, Object...args) {
         try (Connection con = dbConnection.getConnection();
              PreparedStatement ps = con.prepareStatement(query)) {
             for (int i = 0; i < args.length; i++) {
@@ -54,17 +54,17 @@ public class DataBaseConnection {
                 T result = mapper.apply(rs);  // Map the first result
 
                 if (rs.next()) {
-                    throw new SQLException("Query returned more than one result");
+                    throw new RuntimeException("Query returned more than one result");
                 }
 
                 return result;
             }
         } catch (SQLException e) {
-            throw new SQLException("Error executing query: " + query, e);
+            throw new RuntimeException("Error executing query: " + query, e);
         }
     }
 
-    <T> List<T> findMany(String query, Function<ResultSet, T> mapper, Object...args) throws SQLException {
+    public <T> List<T> findMany(String query, Function<ResultSet, T> mapper, Object...args) {
         try (Connection con = dbConnection.getConnection();
              PreparedStatement ps = con.prepareStatement(query)) {
             for (int i = 0; i < args.length; i++) {
@@ -80,7 +80,7 @@ public class DataBaseConnection {
                 return objectList.isEmpty() ? Collections.emptyList() : objectList;
             }
         } catch (SQLException e) {
-            throw new SQLException("Error executing query: " + query, e);
+            throw new RuntimeException("Error executing query: " + query, e);
         }
     }
 }
