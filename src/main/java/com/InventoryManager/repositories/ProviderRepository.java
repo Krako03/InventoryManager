@@ -1,7 +1,7 @@
 package com.InventoryManager.repositories;
 
-import com.InventoryManager.Model.ProviderClass;
-import com.InventoryManager.Utilities.DataBaseConnection;
+import com.InventoryManager.model.ProviderClass;
+import com.InventoryManager.utilities.DataBaseConnection;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

@@ -1,9 +1,9 @@
-/*package com.InventoryManager.Utilities;
+/*package com.InventoryManager.utilities;
 
-import com.InventoryManager.Model.Asset;
-import com.InventoryManager.Model.ProviderClass;
-import com.InventoryManager.Model.Purchase;
-import com.InventoryManager.Model.User;
+import com.InventoryManager.model.Asset;
+import com.InventoryManager.model.ProviderClass;
+import com.InventoryManager.model.Purchase;
+import com.InventoryManager.model.User;
 import lombok.Setter;
 
 import java.io.File;

@@ -1,6 +1,6 @@
-/*package com.InventoryManager.Services;
+/*package com.InventoryManager.services;
 
-import com.InventoryManager.Model.Asset;
+import com.InventoryManager.model.Asset;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 

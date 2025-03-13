@@ -1,7 +1,7 @@
-package com.InventoryManager.Model;
+package com.InventoryManager.model;
 
 public enum MovementType {
-    ASSIGNED,
+    ASSIGN,
     RETURNED,
     REPAIRED
 }

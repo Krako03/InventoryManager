@@ -1,7 +1,7 @@
-/*package com.InventoryManager.Services;
+/*package com.InventoryManager.services;
 
-import com.InventoryManager.Model.Asset;
-import com.InventoryManager.Utilities.DataBaseManagement;
+import com.InventoryManager.model.Asset;
+import com.InventoryManager.utilities.DataBaseManagement;
 
 import java.util.List;
 

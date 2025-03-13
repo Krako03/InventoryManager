@@ -1,8 +1,7 @@
-package com.InventoryManager.Model;
+package com.InventoryManager.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import jakarta.persistence.*;
 import lombok.NoArgsConstructor;
 
 import java.util.List;

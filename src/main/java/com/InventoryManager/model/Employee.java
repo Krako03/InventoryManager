@@ -1,4 +1,4 @@
-package com.InventoryManager.Model;
+package com.InventoryManager.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,9 +9,9 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProviderClass {
+public class Employee {
     private Integer id;
     private String name;
-    private String contact;
-    private List<Purchase> purchases;
+    private String mail;
+    private List<AssetMovement> assetMovements;
 }

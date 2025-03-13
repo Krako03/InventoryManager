@@ -1,4 +1,4 @@
-package com.InventoryManager.Model;
+package com.InventoryManager.model;
 
 public enum Role {
     ADMIN,

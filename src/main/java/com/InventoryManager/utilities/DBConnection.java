@@ -1,4 +1,4 @@
-package com.InventoryManager.Utilities;
+package com.InventoryManager.utilities;
 
 import java.sql.Connection;
 import java.sql.SQLException;

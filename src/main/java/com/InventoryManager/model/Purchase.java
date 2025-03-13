@@ -1,9 +1,10 @@
-package com.InventoryManager.Model;
+package com.InventoryManager.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Data
@@ -12,7 +13,7 @@ import java.util.List;
 public class Purchase {
     private Integer id;
     private Integer providerId; // FK
-    private String date;
+    private LocalDate date;
     private Double totalAmount;
     private List<PurchaseDetail> purchaseDetails;
 }
