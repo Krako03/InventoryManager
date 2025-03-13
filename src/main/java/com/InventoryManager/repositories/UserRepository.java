@@ -2,7 +2,7 @@ package com.InventoryManager.repositories;
 
 import com.InventoryManager.model.Role;
 import com.InventoryManager.model.User;
-import com.InventoryManager.utilities.DataBaseConnection;
+import com.InventoryManager.utilities.DBController;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,9 +10,9 @@ import java.util.List;
 import java.util.Optional;
 
 public class UserRepository implements CrudRepository<User> {
-    private final DataBaseConnection db;
+    private final DBController db;
 
-    public UserRepository(DataBaseConnection db) {
+    public UserRepository(DBController db) {
         this.db = db;
     }
 

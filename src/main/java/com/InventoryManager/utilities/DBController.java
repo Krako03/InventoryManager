@@ -10,10 +10,10 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-public class DataBaseConnection {
+public class DBController {
     private final DBConnection dbConnection;
 
-    public DataBaseConnection(DBConnection dbConnection) {
+    public DBController(DBConnection dbConnection) {
         this.dbConnection = dbConnection;
     }
 

@@ -1,7 +1,7 @@
 package com.InventoryManager.repositories;
 
 import com.InventoryManager.model.Asset;
-import com.InventoryManager.utilities.DataBaseConnection;
+import com.InventoryManager.utilities.DBController;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -9,9 +9,9 @@ import java.util.List;
 import java.util.Optional;
 
 public class AssetRepository implements CrudRepository<Asset> {
-    private final DataBaseConnection db;
+    private final DBController db;
 
-    public AssetRepository(DataBaseConnection db) {
+    public AssetRepository(DBController db) {
         this.db = db;
     }
 

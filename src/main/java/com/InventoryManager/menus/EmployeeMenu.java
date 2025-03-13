@@ -3,6 +3,7 @@ package com.InventoryManager.menus;
 import com.InventoryManager.model.Employee;
 import com.InventoryManager.repositories.EmployeeRepository;
 import com.InventoryManager.utilities.DBConnection;
+import com.InventoryManager.utilities.DBController;
 import com.InventoryManager.utilities.DatabaseConfig;
 
 import java.util.List;
@@ -15,7 +16,7 @@ public class EmployeeMenu implements MenuInterface {
 
     public EmployeeMenu() {
         DBConnection dbConnection = new DBConnection(DatabaseConfig.JDBC_URL, DatabaseConfig.USERNAME, DatabaseConfig.PASSWORD);
-        this.employeeRepository = new EmployeeRepository(new com.InventoryManager.utilities.DataBaseConnection(dbConnection));
+        this.employeeRepository = new EmployeeRepository(new DBController(dbConnection));
     }
 
     @Override

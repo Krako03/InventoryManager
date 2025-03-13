@@ -1,7 +1,7 @@
 package com.InventoryManager.repositories;
 
 import com.InventoryManager.model.AssetMovement;
-import com.InventoryManager.utilities.DataBaseConnection;
+import com.InventoryManager.utilities.DBController;
 import com.InventoryManager.model.MovementType;
 
 import java.sql.ResultSet;
@@ -10,9 +10,9 @@ import java.util.List;
 import java.util.Optional;
 
 public class AssetsMovementsRepository implements CrudRepository<AssetMovement> {
-    private final DataBaseConnection db;
+    private final DBController db;
 
-    public AssetsMovementsRepository(DataBaseConnection db) {
+    public AssetsMovementsRepository(DBController db) {
         this.db = db;
     }
 

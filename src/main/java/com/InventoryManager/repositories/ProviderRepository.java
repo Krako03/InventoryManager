@@ -1,7 +1,7 @@
 package com.InventoryManager.repositories;
 
 import com.InventoryManager.model.ProviderClass;
-import com.InventoryManager.utilities.DataBaseConnection;
+import com.InventoryManager.utilities.DBController;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -9,9 +9,9 @@ import java.util.List;
 import java.util.Optional;
 
 public class ProviderRepository implements CrudRepository<ProviderClass>{
-    private final DataBaseConnection db;
+    private final DBController db;
 
-    public ProviderRepository(DataBaseConnection db) {
+    public ProviderRepository(DBController db) {
         this.db = db;
     }
 
