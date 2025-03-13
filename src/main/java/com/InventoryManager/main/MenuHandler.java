@@ -1,4 +1,6 @@
-package com.InventoryManager.menus;
+package com.InventoryManager.main;
+
+import com.InventoryManager.menus.EmployeeMenu;
 
 import java.util.Scanner;
 
@@ -7,18 +9,18 @@ public class MenuHandler {
     private final EmployeeMenu employeeMenu = new EmployeeMenu();
     //private final UserMenu userMenu = new UserMenu();
     //private final ProviderMenu providerMenu = new ProviderMenu();
-    //private final AssetMenu assetMenu = new AssetMenu();
+    //private final AssetsMenu assetMenu = new AssetsMenu();
     //private final PurchaseMenu purchaseMenu = new PurchaseMenu();
     //private final MovementMenu movementMenu = new MovementMenu();
 
     public void showMainMenu() {
         boolean running = true;
         while (running) {
-            System.out.println("\n📌 MENÚ PRINCIPAL");
+            System.out.println("\n [MENÚ PRINCIPAL]");
             System.out.println("1. Gestión de empleados");
             System.out.println("2. Gestión de usuarios");
             System.out.println("3. Gestión de proveedores");
-            System.out.println("4. Gestión de activos");
+            System.out.println("4. Gestión de assets");
             System.out.println("5. Gestión de compras");
             System.out.println("6. Gestión de movimientos");
             System.out.println("7. Salir");
@@ -35,10 +37,10 @@ public class MenuHandler {
                 //case 5 -> purchaseMenu.showMenu();
                 //case 6 -> movementMenu.showMenu();
                 case 7 -> {
-                    System.out.println("👋 Saliendo del sistema...");
+                    System.out.println("Saliendo del sistema...");
                     running = false;
                 }
-                default -> System.out.println("❌ Opción inválida. Intente de nuevo.");
+                default -> System.out.println(" Opción inválida. Intente de nuevo.");
             }
         }
     }

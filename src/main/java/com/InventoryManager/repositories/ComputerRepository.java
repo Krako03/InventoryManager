@@ -17,7 +17,7 @@ public class ComputerRepository implements CrudRepository<Computer> {
 
     @Override
     public void save(Computer computer) {
-        // Primero insertar en `assets` para obtener el `asset_id`
+        // Primero insertar en assets para obtener el asset_id
         String assetQuery = "INSERT INTO assets (name, description, series_number) VALUES (?, ?, ?) RETURNING id";
         int assetId = db.findOne(assetQuery, rs -> {
             try {
@@ -27,7 +27,7 @@ public class ComputerRepository implements CrudRepository<Computer> {
             }
         }, computer.getName(), computer.getDescription(), computer.getSeriesNumber());
 
-        // Luego insertar en `computers` usando `asset_id`
+        // Luego insertar en computers usando asset_id
         String computerQuery = "INSERT INTO computers (asset_id, ram, disk, core, screen_state, keyboard_state, shell_state, comments) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         db.execute(computerQuery, assetId, computer.getRam(), computer.getDisk(), computer.getCore(), computer.getScreenState(), computer.getKeyboardState(), computer.getShellState(), computer.getComments());
     }
@@ -57,22 +57,22 @@ public class ComputerRepository implements CrudRepository<Computer> {
 
     @Override
     public void update(Computer computer) {
-        // Actualizar `assets`
+        // Actualizar assets
         String assetQuery = "UPDATE assets SET name = ?, description = ?, series_number = ? WHERE id = ?";
         db.execute(assetQuery, computer.getName(), computer.getDescription(), computer.getSeriesNumber(), computer.getId());
 
-        // Actualizar `computers`
+        // Actualizar computers
         String computerQuery = "UPDATE computers SET ram = ?, disk = ?, core = ?, screen_state = ?, keyboard_state = ?, shell_state = ?, comments = ? WHERE id = ?";
         db.execute(computerQuery, computer.getRam(), computer.getDisk(), computer.getCore(), computer.getScreenState(), computer.getKeyboardState(), computer.getShellState(), computer.getComments(), computer.getId());
     }
 
     @Override
     public void deleteById(int id) {
-        // Borrar primero de `computers` (hijos)
+        // Borrar primero de computers (hijos)
         String computerQuery = "DELETE FROM computers WHERE id = ?";
         db.execute(computerQuery, id);
 
-        // Luego de `assets` (padre)
+        // Luego de assets (padre)
         String assetQuery = "DELETE FROM assets WHERE id = ?";
         db.execute(assetQuery, id);
     }

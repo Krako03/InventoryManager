@@ -58,19 +58,19 @@ public class AssetRepository implements CrudRepository<Asset> {
         }
     }
 
-    // ✅ **Buscar assets por nombre**
+    // Buscar assets por nombre
     public List<Asset> findByName(String name) {
         String query = "SELECT * FROM assets WHERE name LIKE ?";
         return db.findMany(query, this::mapResultSetToAsset, "%" + name + "%");
     }
 
-    // ✅ **Buscar assets por número de serie**
+    // Buscar assets por número de serie
     public Optional<Asset> findBySeriesNumber(String seriesNumber) {
         String query = "SELECT * FROM assets WHERE series_number = ?";
         return Optional.ofNullable(db.findOne(query, this::mapResultSetToAsset, seriesNumber));
     }
 
-    // ✅ **Contar assets registrados**
+    // Contar assets registrados
     public int countAssets() {
         String query = "SELECT COUNT(*) FROM assets";
         return db.findOne(query, rs -> {
