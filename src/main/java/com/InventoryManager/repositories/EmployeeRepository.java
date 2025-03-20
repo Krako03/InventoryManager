@@ -1,8 +1,10 @@
 package com.InventoryManager.repositories;
 
 import com.InventoryManager.model.Employee;
+import com.InventoryManager.model.Role;
 import com.InventoryManager.utilities.DBController;
 
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -17,8 +19,49 @@ public class EmployeeRepository implements CrudRepository<Employee> {
 
     @Override
     public void save(Employee employee) {
-        String query = "INSERT INTO employees (name, mail) VALUES (?, ?)";
-        db.execute(query, employee.getName(), employee.getMail());
+        Connection connection = null;
+        try {
+            connection = db.getConnection(); // Obtiene una única conexión
+            connection.setAutoCommit(false); // Inicia la transacción
+
+            // Inserta Employee y obtiene su ID
+            String insertEmployeeQuery = "INSERT INTO employees (name, mail) VALUES (?, ?) RETURNING id";
+            Integer employeeId = db.findOne(connection, insertEmployeeQuery, rs -> {
+                try {
+                    return rs.getInt("id");
+                } catch (SQLException e) {
+
+                }
+                return 0;
+            }, employee.getName(), employee.getMail());
+
+            if (employeeId != null) {
+                String username = employee.getMail().split("@")[0];
+                String defaultPassword = "default123";
+                Role defaultRole = Role.EMPLOYEE;
+
+                String insertUserQuery = "INSERT INTO users (employee_id, role, username, password) VALUES (?, ?, ?, ?)";
+                db.execute(connection, insertUserQuery, employeeId, defaultRole.name(), username, defaultPassword);
+            }
+
+            connection.commit();
+        } catch (Exception e) {
+            if (connection != null) {
+                try {
+                    connection.rollback();
+                } catch (SQLException rollbackEx) {
+                    throw new RuntimeException("Error al hacer rollback", rollbackEx);
+                }
+            }
+            throw new RuntimeException("Error al guardar empleado y usuario", e);
+        } finally {
+            if (connection != null) {
+                try {
+                    connection.setAutoCommit(true); // Restauramos el auto-commit
+                    connection.close(); // Cerramos la conexión
+                } catch (SQLException ignored) {}
+            }
+        }
     }
 
     @Override
@@ -56,4 +99,6 @@ public class EmployeeRepository implements CrudRepository<Employee> {
             throw new RuntimeException("Error mapping Employee", e);
         }
     }
+
+
 }

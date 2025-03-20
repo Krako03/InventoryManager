@@ -83,4 +83,44 @@ public class DBController {
             throw new RuntimeException("Error executing query: " + query, e);
         }
     }
+    //Transaction execution
+    public void execute(Connection connection, String query, Object... args){
+        try(PreparedStatement ps = connection.prepareStatement(query)){
+            for(int i = 0; i< args.length; i++){
+                ps.setObject(i+1,args[i]);
+            }
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("Error executing query "+ query, e);
+        }
+    }
+
+    //Transaction find one
+    public <T> T findOne(Connection connection, String query, Function<ResultSet, T> mapper, Object... args){
+        try(PreparedStatement ps = connection.prepareStatement(query)){
+            for (int i = 0; i < args.length; i++){
+                ps.setObject(i+1, args[i]);
+            }
+
+            try(ResultSet rs = ps.executeQuery()) {
+                if (!rs.next()) {
+                    return null;
+                }
+
+                T result = mapper.apply(rs);
+
+                if (rs.next()) {
+                    throw new RuntimeException("Query returned more than one result");
+                }
+                return result;
+            }
+        }catch (SQLException e){
+            throw new RuntimeException("Error executing query "+ query, e);
+        }
+    }
+
+    public Connection getConnection() throws SQLException {
+        return dbConnection.getConnection();
+    }
+
 }

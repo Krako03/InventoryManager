@@ -53,6 +53,7 @@ public class EmployeeMenu implements MenuInterface {
 
         Employee employee = new Employee(null, name, mail, null);
         employeeRepository.save(employee);
+
         System.out.println("-> Empleado agregado correctamente.");
     }
 
