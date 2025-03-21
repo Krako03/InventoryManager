@@ -123,4 +123,13 @@ public class DBController {
         return dbConnection.getConnection();
     }
 
+    //aceptando nivel de serializacion
+    public Connection getConnection(int isolationLevel) throws SQLException {
+        Connection connection = dbConnection.getConnection();
+        connection.setTransactionIsolation(isolationLevel);
+        return connection;
+    }
+
+
+
 }

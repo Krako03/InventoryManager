@@ -21,7 +21,7 @@ public class EmployeeRepository implements CrudRepository<Employee> {
     public void save(Employee employee) {
         Connection connection = null;
         try {
-            connection = db.getConnection(); // Obtiene una única conexión
+            connection = db.getConnection(Connection.TRANSACTION_REPEATABLE_READ); // Obtiene una única conexión
             connection.setAutoCommit(false); // Inicia la transacción
 
             // Inserta Employee y obtiene su ID
@@ -78,8 +78,16 @@ public class EmployeeRepository implements CrudRepository<Employee> {
 
     @Override
     public void update(Employee employee) {
-        String query = "UPDATE employees SET name = ?, mail = ? WHERE id = ?";
-        db.execute(query, employee.getName(), employee.getMail(), employee.getId());
+        try (Connection connection = db.getConnection(Connection.TRANSACTION_SERIALIZABLE)) {
+            connection.setAutoCommit(false);
+
+            String query = "UPDATE employees SET name = ?, mail = ? WHERE id = ?";
+            db.execute(connection, query, employee.getName(), employee.getMail(), employee.getId());
+
+            connection.commit();
+        } catch (SQLException e) {
+            throw new RuntimeException("Error actualizando empleado", e);
+        }
     }
 
     @Override
@@ -99,6 +107,5 @@ public class EmployeeRepository implements CrudRepository<Employee> {
             throw new RuntimeException("Error mapping Employee", e);
         }
     }
-
 
 }
