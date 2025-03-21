@@ -68,6 +68,8 @@ CREATE TABLE IF NOT EXISTS computers (
 );
 
 -- Indexes for performance optimization
-CREATE INDEX idx_users_username ON users(username);
-CREATE INDEX idx_assets_series_number ON assets(series_number);
-CREATE INDEX idx_assets_movements_employee ON assets_movements(employee_id);
+CREATE INDEX IF NOT EXISTS idx_purchases_id ON purchases(id);
+CREATE INDEX IF NOT EXISTS idx_employees_id ON employees(id) include (name);
+CREATE INDEX IF NOT EXISTS idx_computers_id ON computers(asset_id);
+CREATE INDEX IF NOT EXISTS idx_assets_id ON assets(id);
+CREATE INDEX IF NOT EXISTS idx_assets_movements_ids ON assets_movements(asset_id, employee_id);
