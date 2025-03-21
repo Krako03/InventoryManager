@@ -127,6 +127,7 @@ public class DBController {
     public Connection getConnection(int isolationLevel) throws SQLException {
         Connection connection = dbConnection.getConnection();
         connection.setTransactionIsolation(isolationLevel);
+        //System.out.println("[DBController] Isolation level aplicado: SERIALIZABLE");
         return connection;
     }
 

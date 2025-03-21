@@ -79,6 +79,7 @@ public class EmployeeRepository implements CrudRepository<Employee> {
     @Override
     public void update(Employee employee) {
         try (Connection connection = db.getConnection(Connection.TRANSACTION_SERIALIZABLE)) {
+        //try (Connection connection = db.getConnection()) {
             connection.setAutoCommit(false);
 
             String query = "UPDATE employees SET name = ?, mail = ? WHERE id = ?";

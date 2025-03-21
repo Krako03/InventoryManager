@@ -29,6 +29,7 @@ public class EmployeeMenu implements MenuInterface {
             System.out.println("3. Eliminar empleado");
             System.out.println("4. Listar empleados");
             System.out.println("5. Volver al menú principal");
+            System.out.println("6. Simulacion -> Concurrencia al editar un empleado");
             System.out.print("Seleccione una opción: ");
 
             int choice = scanner.nextInt();
@@ -40,6 +41,7 @@ public class EmployeeMenu implements MenuInterface {
                 case 3 -> deleteEmployee();
                 case 4 -> listEmployees();
                 case 5 -> running = false;
+                case 6 -> simulateConcurrentEdit();
                 default -> System.out.println(" Opción inválida.");
             }
         }
@@ -108,4 +110,42 @@ public class EmployeeMenu implements MenuInterface {
             System.out.println("ID: " + emp.getId() + " |  Nombre: " + emp.getName() + " |  Correo: " + emp.getMail());
         }
     }
+    //for testing
+    private void simulateConcurrentEdit() {
+        System.out.print("ID del empleado a editar en concurrencia: ");
+        int id = scanner.nextInt();
+        scanner.nextLine();
+
+        Runnable task1 = () -> {
+            Optional<Employee> opt = employeeRepository.findById(id);
+            if (opt.isPresent()) {
+                Employee e = opt.get();
+                e.setMail("correo1@empresa.com");
+                sleep(1000); // Simula tiempo de edición
+                employeeRepository.update(e);
+                System.out.println("Hilo 1 completó actualización.");
+            }
+        };
+
+        Runnable task2 = () -> {
+            Optional<Employee> opt = employeeRepository.findById(id);
+            if (opt.isPresent()) {
+                Employee e = opt.get();
+                e.setMail("correo2@empresa.com");
+                sleep(1000); // Simula tiempo de edición
+                employeeRepository.update(e);
+                System.out.println("Hilo 2 completó actualización.");
+            }
+        };
+
+        new Thread(task1).start();
+        new Thread(task2).start();
+    }
+
+    private void sleep(int ms) {
+        try {
+            Thread.sleep(ms);
+        } catch (InterruptedException ignored) {}
+    }
+
 }

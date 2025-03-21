@@ -40,6 +40,7 @@ public class MenuHandler {
                     System.out.println("Saliendo del sistema...");
                     running = false;
                 }
+
                 default -> System.out.println(" Opción inválida. Intente de nuevo.");
             }
         }
